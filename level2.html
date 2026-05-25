@@ -194,15 +194,24 @@ body{font-family:-apple-system,'PingFang SC',sans-serif;background:#f0f2f5;color
     </div>
     <div class="exp-insight">
       💡 差距核心：同等 leads 下，廖杰推成年课 14 单，张小超仅 4 单。GMV 差距 = (14-4) × 年课单价约 ¥3600 ≈ ¥36,000。<br>
-      建议：对比两人话术录音，重点看「课程价值塑造」和「高价课推荐时机」。查看原因分析 查张小超的分时段 R 值看承接时间节点。
+      建议：对比两人话术录音，重点看「课程价值塑造」和「高价课推荐时机」。张小超的分时段 R 值和聊天话术已在下方完整诊断中详细呈现。
     </div>
   </div>
 
   <!-- 个人排名 -->
   <div class="section-title">个人 R 值排名 · 大盘中位基准 99.28</div>
 
+  <!-- 重点诊断提示 -->
+  <div style="background:#fef2f2;border:1.5px solid #fca5a5;border-radius:10px;padding:10px 16px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+    <div>
+      <span style="font-size:12px;font-weight:800;color:#dc2626">⚡ 本期已完成细致诊断：张小超</span>
+      <span style="font-size:11px;color:#7f1d1d;margin-left:8px">含分时段R值 · 外呼覆盖 · 转化漏斗 · 聊天话术实证（共 6 个维度）</span>
+    </div>
+    <button class="drill-btn red" style="white-space:nowrap" onclick="document.getElementById('card-zxc').scrollIntoView({behavior:'smooth'})">↓ 跳转查看</button>
+  </div>
+
   <!-- 廖杰 #1 -->
-  <div class="sales-card top">
+  <div class="sales-card top" id="card-lj">
     <div class="sc-top">
       <div class="sc-rank rank-1">1</div>
       <div class="sc-name">廖杰 <span class="sc-badge badge-test">测试盘</span></div>
@@ -240,6 +249,10 @@ body{font-family:-apple-system,'PingFang SC',sans-serif;background:#f0f2f5;color
           <span class="dev-num green" style="margin-left:6px">128.12</span>
         </div>
       </div>
+    </div>
+    <div class="drill-row">
+      <span class="drill-hint" style="color:#16a34a">廖杰作为本期标杆，已在张小超诊断中做详细对比分析</span>
+      <button class="drill-btn" style="background:#f0fdf4;color:#15803d;border:1px solid #86efac" onclick="window.location.href='level3.html'">查看对比分析 →</button>
     </div>
   </div>
 
@@ -284,13 +297,13 @@ body{font-family:-apple-system,'PingFang SC',sans-serif;background:#f0f2f5;color
       </div>
     </div>
     <div class="drill-row">
-      <span class="drill-hint">陈芳外R偏低，但季课推销强；建议查外呼覆盖</span>
-      <button class="drill-btn blue" onclick="window.location.href='level3.html'">查看原因分析</button>
+      <span class="drill-hint">外R偏低，季课推销强；下期重点跟进外呼覆盖</span>
+      <button class="drill-btn" style="background:#f1f5f9;color:#94a3b8;cursor:default" disabled>暂未完成细致分析</button>
     </div>
   </div>
 
   <!-- 廖祥佳 #3 -->
-  <div class="sales-card warn">
+  <div class="sales-card warn" id="card-lxj">
     <div class="sc-top">
       <div class="sc-rank rank-3">3</div>
       <div class="sc-name">廖祥佳 <span class="sc-badge badge-formal">正式盘</span></div>
@@ -329,6 +342,10 @@ body{font-family:-apple-system,'PingFang SC',sans-serif;background:#f0f2f5;color
         <div class="dev-right"></div>
       </div>
     </div>
+    <div class="drill-row">
+      <span class="drill-hint">外R严重偏低（-43.1%），需排查外呼和直播承接</span>
+      <button class="drill-btn" style="background:#f1f5f9;color:#94a3b8;cursor:default" disabled>暂未完成细致分析</button>
+    </div>
   </div>
 
   <!-- 柳千一 #4 dim -->
@@ -364,7 +381,7 @@ body{font-family:-apple-system,'PingFang SC',sans-serif;background:#f0f2f5;color
   </div>
 
   <!-- 张小超 #5 -->
-  <div class="sales-card low">
+  <div class="sales-card low" id="card-zxc">
     <div class="sc-top">
       <div class="sc-rank rank-5">5</div>
       <div class="sc-name">张小超 <span class="sc-badge badge-test">测试盘</span></div>
