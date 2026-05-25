@@ -89,23 +89,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 
   <!-- 页头 -->
   <div class="header">
-    <div class="header-eyebrow">销售诊断报告 · Level 1 · 营期总览</div>
-    <h1>星海·大盘键盘乐 260512期 · 营期全盘诊断</h1>
-    <div class="meta">行课周：2026-05-12 ～ 2026-05-17 · 共 9 个有效盘 · 数据截止 2026-05-17（已完结）</div>
-    <div class="header-purpose">本报告用于快速识别本营期各盘 R 值异常。管理者从整体看哪个盘偏低，点击「查看原因分析」逐层追因（团队 → 销售个人 → 话术行为）。</div>
+    <div class="header-eyebrow">销售诊断报告 · Level 1 · 团长视角</div>
+    <h1>B团 260512期 · 同期横向诊断</h1>
+    <div class="meta">B团行课：2026-05-12 ～ 2026-05-17 · 对比同时间窗口 8 个有效参照盘 · 数据截止 2026-05-17（已完结）</div>
+    <div class="header-purpose">团长视角：快速了解本期 B团各盘 R 值表现，与同时间窗口其他团横向对比，定位哪个盘异常，再点击「查看原因分析」逐层追因（团内销售 → 个人行为 → 话术实证）。</div>
   </div>
 
   <!-- 营期汇总 -->
   <div class="summary-row">
     <div class="sum-card">
-      <div class="sum-label">本周有效盘数</div>
-      <div class="sum-value">9 盘</div>
-      <div class="sum-sub">共 5 个团</div>
+    <div class="sum-label">B团本期盘数</div>
+        <div class="sum-value">2 盘</div>
+        <div class="sum-sub">正式 + 测试（合并口径）</div>
     </div>
     <div class="sum-card">
-      <div class="sum-label">总计 Leads（9 盘）</div>
-      <div class="sum-value">24,151</div>
-      <div class="sum-sub">平均每盘 2,683</div>
+    <div class="sum-label">B团 Leads（合并）</div>
+        <div class="sum-value">2,196</div>
+        <div class="sum-sub">正式 1,178 + 测试 1,018</div>
     </div>
     <div class="sum-card">
       <div class="sum-label">R 值中位数（大盘）</div>
@@ -113,14 +113,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
       <div class="sum-sub">8 个参照盘中位</div>
     </div>
     <div class="sum-card">
-      <div class="sum-label">总有效 GMV 估算</div>
-      <div class="sum-value">218 万</div>
-      <div class="sum-sub">9 盘合计</div>
+    <div class="sum-label">B团有效 GMV</div>
+        <div class="sum-value red">17.2 万</div>
+        <div class="sum-sub">上期 22.0 万（-21.8%）</div>
     </div>
     <div class="sum-card">
-      <div class="sum-label">异常盘数</div>
-      <div class="sum-value red">1 盘</div>
-      <div class="sum-sub">低于大盘 &gt;15%</div>
+    <div class="sum-label">B团异常盘</div>
+        <div class="sum-value red">1 盘</div>
+        <div class="sum-sub">低于同期参照中位 -21%</div>
     </div>
   </div>
 
@@ -143,7 +143,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
   </div>
 
   <!-- 盘排名表 -->
-  <div class="section-title">本营期全盘 R 值排名（由高至低）</div>
+  <div class="section-title">B团 vs 同期参照盘 · R 值排名（由高至低）</div>
   <div class="rank-table">
     <table>
       <thead>
@@ -159,6 +159,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
         </tr>
       </thead>
       <tbody>
+
+        <!-- 同期参照盘分区标题 -->
+        <tr style="background:#f8fafc">
+          <td colspan="8" style="padding:7px 12px;font-size:11px;color:#6366f1;font-weight:700;letter-spacing:.05em">
+            📊 同期参照盘（时间窗口重叠，用于提供基准；不是 B团下属盘）
+          </td>
+        </tr>
 
         <!-- 1 勇毅笃行 C团 -->
         <tr>
@@ -347,7 +354,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
           <td><button class="drill-btn disabled">未覆盖分析</button></td>
         </tr>
 
-        <!-- ⚠ 10 焕新前行 B团 异常 -->
+        <!-- B团本期盘分区标题 -->
+        <tr style="background:#fff8f0">
+          <td colspan="8" style="padding:7px 12px;font-size:11px;color:#ea580c;font-weight:700;letter-spacing:.05em">
+            🔍 B团本期盘（本次诊断主体）
+          </td>
+        </tr>
+
+        <!-- ⚠ 焕新前行 B团 异常 -->
         <tr class="anomaly">
           <td style="color:#dc2626;font-size:12px;font-weight:800">⚠</td>
           <td>
@@ -376,14 +390,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
   </div>
 
   <!-- 大盘说明 -->
-  <div class="section-title">大盘基准说明</div>
+  <div class="section-title">同期参照盘口径说明</div>
   <div class="bench-note">
-    <strong>大盘口径：</strong>行课时间与 260512期（2026-05-12～05-17）实际重叠的有效盘，过滤测试/自播/Leads&lt;500，共 8 个参照盘。
-    <br>包括：A团 260510期（2盘）、C团 260514期（2盘）、D团 260516期（2盘）、E团 260508期（2盘）。
-    <br><strong>中位 R 值：99.28</strong>　外R中位：41.60　转化率中位：4.56%
+    <strong>参照盘选取口径：</strong>行课时间与 B团260512期（2026-05-12～05-17）实际重叠的其他团盘，过滤测试/自播/Leads&lt;500，共 8 盘。
+    <br>包括：A团 260510期（2盘）、C团 260514期（2盘）、D团 260516期（2盘）、E团 260508期（2盘）。这些团的「期号」与 B团不同，但上课时间是同一周，代表相同的市场环境。
+    <br><br><strong>参照中位 R 值：99.28</strong>　外R中位：41.60　转化率中位：4.56%
     <br><br>
-    <strong>为什么用「中位数」而非均值？</strong>避免头部盘（勇毅笃行 R=122.6）拉高基准，让普通团队的绩效评估更公平。
-    <br><strong>九霄之上</strong>：B团同期参照组（260510期，R=91.34，环比持平），用于排除老师/课程共因——焕新前行 R 下滑不是课程质量问题，是销售执行问题。
+    <strong>为什么用「中位数」作基准？</strong>避免头部盘（勇毅笃行 R=122.6）拉高基准，让绩效评估更公平。
+    <br><strong>九霄之上</strong>：B团同期另一组参照（260510期，R=91.34，环比持平）。作用：排除老师/课程共因——九霄稳定，说明焕新前行 R 下滑是销售执行问题，不是课程质量问题。
   </div>
 
   <div class="footnote">
