@@ -48,6 +48,7 @@ body{font-family:-apple-system,'PingFang SC',sans-serif;background:#f0f2f5;color
 
 /* metric grid */
 .metric-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
+.metric-grid-2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px;padding-top:10px;border-top:1px solid #f1f5f9}
 .metric-item{display:flex;flex-direction:column;gap:2px}
 .metric-label{font-size:11px;color:#94a3b8}
 .metric-value{font-size:18px;font-weight:800;color:#1a2035;line-height:1.1}
@@ -109,6 +110,38 @@ body{font-family:-apple-system,'PingFang SC',sans-serif;background:#f0f2f5;color
     <div class="header-purpose">本报告用于快速识别本营期各盘的 R 值异常，定位核心问题，并指引进入下一层销售行为分析。管理者可通过点击「查看原因分析」逐层追因。</div>
   </div>
 
+  <!-- B团本期整体概览 -->
+  <div style="background:#fff;border-radius:12px;padding:14px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06)">
+    <div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:10px;letter-spacing:.04em">B 团本期整体概览（焕新前行，5 名销售）</div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px">
+      <div>
+        <div style="font-size:10px;color:#94a3b8">计量 Leads</div>
+        <div style="font-size:20px;font-weight:800;color:#374151">2,196</div>
+        <div style="font-size:11px;color:#94a3b8">上期 2,337 (-6%)</div>
+      </div>
+      <div>
+        <div style="font-size:10px;color:#94a3b8">合并 R 值</div>
+        <div style="font-size:20px;font-weight:800;color:#dc2626">78.44</div>
+        <div style="font-size:11px;color:#dc2626">上期 93.96（-16.5%）</div>
+      </div>
+      <div>
+        <div style="font-size:10px;color:#94a3b8">有效 GMV</div>
+        <div style="font-size:20px;font-weight:800;color:#dc2626">17.2 万</div>
+        <div style="font-size:11px;color:#dc2626">上期 22.0 万（-21.8%）</div>
+      </div>
+      <div>
+        <div style="font-size:10px;color:#94a3b8">年课成单</div>
+        <div style="font-size:20px;font-weight:800;color:#dc2626">30 单</div>
+        <div style="font-size:11px;color:#dc2626">年课占比 57.7%（偏低）</div>
+      </div>
+      <div>
+        <div style="font-size:10px;color:#94a3b8">外 R 值</div>
+        <div style="font-size:20px;font-weight:800;color:#dc2626">26.48</div>
+        <div style="font-size:11px;color:#dc2626">vs 大盘 -36% ↓</div>
+      </div>
+    </div>
+  </div>
+
   <!-- 异常 alert -->
   <div class="alert">
     <div class="alert-icon">⚠</div>
@@ -163,6 +196,9 @@ body{font-family:-apple-system,'PingFang SC',sans-serif;background:#f0f2f5;color
 
   <!-- 盘列表 -->
   <div class="section-title">本期各盘 · 按 R 值排序</div>
+  <div style="font-size:11px;color:#64748b;margin-bottom:10px;font-weight:700;letter-spacing:.04em">
+    ⚠ 被分析对象（焕新前行）
+  </div>
 
   <!-- 焕新前行·异常 -->
   <div class="pan-card anomaly" onclick="toggleDrill('hx')">
@@ -191,6 +227,23 @@ body{font-family:-apple-system,'PingFang SC',sans-serif;background:#f0f2f5;color
         <span class="metric-label">计量 Leads（合并）</span>
         <span class="metric-value gray">2,196</span>
         <span class="metric-sub flat">上期 2,337 (-6%，基本持平)</span>
+      </div>
+    </div>
+    <div class="metric-grid-2">
+      <div class="metric-item">
+        <span class="metric-label">有效 GMV</span>
+        <span class="metric-value red">17.2 万</span>
+        <span class="metric-sub down">上期 22.0 万（-21.8%）</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-label">年课成单（5人合计）</span>
+        <span class="metric-value red">30 单</span>
+        <span class="metric-sub down">年课占比 57.7%（期望 >70%）</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-label">季课 / 期课</span>
+        <span class="metric-value gray">18 / 4</span>
+        <span class="metric-sub flat">低价课占比偏高</span>
       </div>
     </div>
 
@@ -233,11 +286,14 @@ body{font-family:-apple-system,'PingFang SC',sans-serif;background:#f0f2f5;color
     </div>
   </div>
 
-  <!-- 九霄之上·正常 -->
+  <!-- 九霄之上·参照组 -->
+  <div style="font-size:11px;color:#64748b;margin:16px 0 6px;font-weight:700;letter-spacing:.04em">
+    📌 对照组（同期稳定参照，用于排除老师/课程共因）
+  </div>
   <div class="pan-card normal" onclick="toggleDrill('jx')">
     <div class="pan-top">
-      <span class="pan-name">九霄之上</span>
-      <span class="pan-badge badge-normal">✓ 正常</span>
+      <span class="pan-name">九霄之上 <span style="font-size:11px;font-weight:400;color:#64748b">（同期参照组，非本期诊断对象）</span></span>
+      <span class="pan-badge badge-normal">✓ 稳定</span>
       <span class="pan-rank">同期第 3/10 位</span>
     </div>
     <div class="metric-grid">
@@ -260,6 +316,23 @@ body{font-family:-apple-system,'PingFang SC',sans-serif;background:#f0f2f5;color
         <span class="metric-label">计量 Leads</span>
         <span class="metric-value gray">2,887</span>
         <span class="metric-sub flat">上期 2,948 (-2%)</span>
+      </div>
+    </div>
+    <div class="metric-grid-2">
+      <div class="metric-item">
+        <span class="metric-label">有效 GMV</span>
+        <span class="metric-value gray">26.4 万</span>
+        <span class="metric-sub flat">上期 26.9 万（-2%，基本持平）</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-label">年课成单（6人合计）</span>
+        <span class="metric-value gray">47 单</span>
+        <span class="metric-sub flat">年课占比 47.5%</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-label">季课 / 期课</span>
+        <span class="metric-value gray">25 / 27</span>
+        <span class="metric-sub flat">上期参照数据</span>
       </div>
     </div>
 
