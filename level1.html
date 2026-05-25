@@ -3,408 +3,417 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>星海·大盘键盘乐 260512期 · 营期诊断报告 Level 1</title>
+<title>星海-大盘键盘乐-260512期 · 销售诊断</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",Arial,sans-serif;background:#f0f4f8;color:#1e293b;font-size:14px}
-.page{max-width:900px;margin:0 auto;padding:24px 16px 48px}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",Arial,sans-serif;background:#f0f4f8;color:#1e293b;font-size:14px;display:flex;min-height:100vh}
 
-/* 页头 */
-.header{background:linear-gradient(135deg,#1e3a5f 0%,#2563eb 100%);color:#fff;border-radius:14px;padding:22px 24px 18px;margin-bottom:16px}
-.header-eyebrow{font-size:11px;font-weight:700;letter-spacing:.08em;opacity:.75;margin-bottom:6px}
-.header h1{font-size:22px;font-weight:800;margin-bottom:6px;line-height:1.3}
-.header .meta{font-size:12px;opacity:.8;margin-bottom:8px}
-.header-purpose{font-size:12px;opacity:.7;line-height:1.6;padding-top:8px;border-top:1px solid rgba(255,255,255,.2)}
+/* ─── 侧边栏 ─── */
+.sidebar{width:200px;min-width:200px;background:#1e293b;color:#e2e8f0;display:flex;flex-direction:column;padding:0;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:10}
+.sidebar-logo{padding:16px 14px 10px;font-size:12px;font-weight:800;color:#fff;letter-spacing:.06em;border-bottom:1px solid #334155}
+.sidebar-logo span{color:#60a5fa}
+.sidebar-section{padding:10px 14px 4px;font-size:10px;font-weight:700;color:#64748b;letter-spacing:.08em;text-transform:uppercase}
 
-/* 营期汇总大数字 */
-.summary-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
-.sum-card{background:#fff;border-radius:10px;padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.sum-label{font-size:10px;color:#94a3b8;margin-bottom:4px}
-.sum-value{font-size:20px;font-weight:800;color:#1e293b}
-.sum-value.red{color:#dc2626}
-.sum-sub{font-size:11px;color:#64748b;margin-top:2px}
+.sidebar-term{padding:10px 14px;border-bottom:1px solid #334155;background:#253347}
+.sidebar-term-label{font-size:10px;color:#64748b;margin-bottom:4px}
+.sidebar-term-name{font-size:12px;font-weight:700;color:#e2e8f0;line-height:1.4}
 
-/* 异常 alert */
-.alert{background:linear-gradient(135deg,#fef2f2,#fff5f5);border:1.5px solid #fecaca;border-radius:12px;padding:14px 16px;margin-bottom:16px;display:flex;gap:12px;align-items:flex-start}
-.alert-icon{font-size:20px;flex-shrink:0;margin-top:2px}
-.alert-title{font-weight:800;font-size:14px;color:#dc2626;margin-bottom:4px}
-.alert-text{font-size:12px;color:#374151;line-height:1.6}
-.flag-tag{display:inline-block;background:#fef2f2;border:1px solid #fca5a5;color:#dc2626;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700;margin:4px 4px 0 0}
+.sidebar-team{display:flex;align-items:center;gap:8px;padding:9px 14px;cursor:pointer;border-radius:0;font-size:13px;color:#cbd5e1;transition:background .15s}
+.sidebar-team:hover{background:#334155}
+.sidebar-team.active{background:#2563eb;color:#fff}
+.sidebar-team .team-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.sidebar-team .team-dot.red{background:#f87171}
+.sidebar-team .team-dot.green{background:#4ade80}
+.sidebar-team .team-dot.gray{background:#64748b}
+.sidebar-team .team-label{flex:1;min-width:0}
+.sidebar-team .team-r{font-size:11px;font-weight:700}
 
-/* 分区标题 */
-.section-title{font-size:12px;font-weight:700;color:#64748b;letter-spacing:.06em;margin:16px 0 8px;text-transform:uppercase}
+.sidebar-nav{padding:6px 8px}
+.nav-btn{display:block;width:100%;padding:7px 10px;border-radius:6px;font-size:12px;color:#94a3b8;text-align:left;background:none;border:none;cursor:pointer;transition:background .15s}
+.nav-btn:hover{background:#334155;color:#e2e8f0}
+.nav-btn.active{background:#1d4ed8;color:#fff}
 
-/* 排名表 */
-.rank-table{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
-.rank-table table{width:100%;border-collapse:collapse}
-.rank-table thead tr{background:#f8fafc}
-.rank-table th{padding:10px 12px;font-size:11px;color:#64748b;font-weight:700;text-align:right;white-space:nowrap}
-.rank-table th:first-child,.rank-table th:nth-child(2){text-align:left}
-.rank-table td{padding:10px 12px;font-size:13px;text-align:right;border-top:1px solid #f1f5f9;vertical-align:middle}
-.rank-table td:first-child,.rank-table td:nth-child(2){text-align:left}
-.rank-table tr.anomaly{background:linear-gradient(90deg,#fff5f5 0%,#fff 100%)}
-.rank-table tr.anomaly td{border-top-color:#fecaca}
-.rank-table tr.bench-med{background:#f8fafc}
+/* ─── 主内容区 ─── */
+.main{margin-left:200px;flex:1;padding:20px 24px 48px;min-width:0}
 
-/* 盘名 */
-.team-name{font-weight:700;font-size:13px}
-.team-name.red{color:#dc2626}
-.team-period{font-size:10px;color:#94a3b8;display:block;margin-top:1px}
+.page-header{margin-bottom:16px}
+.page-eyebrow{font-size:11px;font-weight:700;color:#6366f1;letter-spacing:.06em;margin-bottom:4px}
+.page-title{font-size:20px;font-weight:800;color:#1e293b;line-height:1.3}
+.page-meta{font-size:12px;color:#64748b;margin-top:4px}
 
-/* R值偏差条 */
-.dev-bar-wrap{display:flex;align-items:center;gap:6px;justify-content:flex-end}
-.dev-bar{height:8px;border-radius:4px;min-width:3px;transition:width .3s}
-.dev-bar.neg{background:#dc2626}
-.dev-bar.pos{background:#16a34a}
-.dev-val{font-size:12px;font-weight:700;white-space:nowrap}
-.dev-val.red{color:#dc2626}
-.dev-val.green{color:#16a34a}
-.dev-val.gray{color:#94a3b8}
+/* ─── 概览大数字 ─── */
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+.kpi-card{background:#fff;border-radius:10px;padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.kpi-label{font-size:10px;color:#94a3b8;margin-bottom:4px}
+.kpi-value{font-size:22px;font-weight:800;color:#1e293b}
+.kpi-value.red{color:#dc2626}
+.kpi-value.green{color:#16a34a}
+.kpi-sub{font-size:11px;color:#64748b;margin-top:2px}
+.kpi-sub.down{color:#dc2626}
+.kpi-sub.up{color:#16a34a}
 
-/* 环比标签 */
-.qoq{font-size:11px;font-weight:600;white-space:nowrap}
-.qoq.down{color:#dc2626}
-.qoq.up{color:#16a34a}
-.qoq.flat{color:#94a3b8}
+/* ─── 团队卡片 ─── */
+.team-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.team-card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.07);border:1.5px solid transparent}
+.team-card.anomaly{border-color:#fca5a5;background:linear-gradient(135deg,#fff5f5 0%,#fff 60%)}
+.team-card.stable{border-color:#bbf7d0;background:linear-gradient(135deg,#f0fdf4 0%,#fff 60%)}
 
-/* 年课占比 */
-.yr-rate{font-size:12px}
-.yr-rate.low{color:#f59e0b;font-weight:700}
-.yr-rate.ok{color:#16a34a}
+.team-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.team-card-name{font-size:16px;font-weight:800}
+.team-card-name.red{color:#dc2626}
+.team-card-name.green{color:#16a34a}
+.team-card-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:700}
+.team-card-badge.danger{background:#fef2f2;color:#dc2626;border:1px solid #fecaca}
+.team-card-badge.ok{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0}
 
-/* 下钻按钮 */
-.drill-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;border:none;cursor:pointer;white-space:nowrap}
+.team-card-meta{font-size:11px;color:#94a3b8;margin-bottom:12px}
+
+.team-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.tm-item{text-align:center;padding:8px 4px;background:#f8fafc;border-radius:8px}
+.tm-label{font-size:10px;color:#94a3b8;margin-bottom:2px}
+.tm-val{font-size:15px;font-weight:800;color:#1e293b}
+.tm-val.red{color:#dc2626}
+.tm-val.green{color:#16a34a}
+.tm-sub{font-size:10px;color:#94a3b8}
+.tm-sub.down{color:#dc2626}
+
+/* 偏差条 */
+.dev-row{display:flex;align-items:center;gap:8px;background:#f8fafc;border-radius:8px;padding:8px 10px;margin-bottom:10px}
+.dev-label{font-size:10px;color:#64748b;width:70px;flex-shrink:0}
+.dev-track{flex:1;height:8px;background:#e2e8f0;border-radius:4px;position:relative;overflow:visible}
+.dev-fill{height:8px;border-radius:4px;position:absolute;top:0}
+.dev-fill.neg{background:#dc2626;right:50%}
+.dev-fill.pos{background:#16a34a;left:50%}
+.dev-center{width:1px;height:12px;background:#cbd5e1;position:absolute;left:50%;top:-2px}
+.dev-pct{font-size:11px;font-weight:700;width:42px;text-align:right;flex-shrink:0}
+.dev-pct.red{color:#dc2626}
+.dev-pct.green{color:#16a34a}
+.dev-pct.gray{color:#94a3b8}
+
+.drill-btn{width:100%;padding:8px 0;border-radius:8px;font-size:12px;font-weight:700;border:none;cursor:pointer}
 .drill-btn.primary{background:#dc2626;color:#fff}
 .drill-btn.disabled{background:#f1f5f9;color:#94a3b8;cursor:default}
 
-/* 大盘说明 */
-.bench-note{background:#fff;border-radius:10px;padding:12px 16px;box-shadow:0 1px 3px rgba(0,0,0,.06);font-size:12px;color:#64748b;line-height:1.8}
-.bench-note strong{color:#374151}
+/* ─── 销售人员列表 ─── */
+.sales-list{margin:8px 0 0;border-top:1px solid #f1f5f9;padding-top:8px}
+.sales-row{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px}
+.sales-name{font-weight:600;color:#374151;width:60px}
+.sales-r{font-weight:700;color:#1e293b}
+.sales-r.red{color:#dc2626}
+.sales-bar-wrap{flex:1;height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden}
+.sales-bar{height:6px;border-radius:3px;background:#6366f1}
+.sales-bar.red{background:#dc2626}
 
-.footnote{font-size:11px;color:#94a3b8;margin-top:24px;line-height:1.6}
+/* ─── 同期参照排名 ─── */
+.bench-section{background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.07);overflow:hidden;margin-bottom:16px}
+.bench-header{padding:12px 16px;border-bottom:1px solid #f1f5f9;font-size:12px;font-weight:700;color:#374151}
+.bench-table{width:100%;border-collapse:collapse}
+.bench-table th{padding:8px 12px;font-size:11px;color:#64748b;font-weight:700;text-align:right;background:#f8fafc}
+.bench-table th:first-child,.bench-table th:nth-child(2){text-align:left}
+.bench-table td{padding:9px 12px;font-size:12px;text-align:right;border-top:1px solid #f1f5f9}
+.bench-table td:first-child,.bench-table td:nth-child(2){text-align:left}
+.bench-median-row td{background:#eef2ff;color:#6366f1;font-weight:700;font-size:11px;text-align:center}
+.bench-b-row{background:#fff8f0}
+.bench-b-row td:first-child{color:#dc2626;font-weight:800}
+.bench-note-small{font-size:11px;color:#94a3b8;padding:10px 16px;border-top:1px solid #f1f5f9;line-height:1.6}
+
+/* ─── 响应式 ─── */
+@media(max-width:700px){
+  .sidebar{width:160px}
+  .main{margin-left:160px;padding:12px}
+  .kpi-row{grid-template-columns:repeat(3,1fr)}
+  .team-cards{grid-template-columns:1fr}
+  .team-metrics{grid-template-columns:repeat(2,1fr)}
+}
 </style>
 </head>
 <body>
-<div class="page">
+
+<!-- ═══════════════ 侧边栏 ═══════════════ -->
+<div class="sidebar">
+  <div class="sidebar-logo">销售诊断 <span>AI</span></div>
+
+  <div class="sidebar-term">
+    <div class="sidebar-term-label">当前营期</div>
+    <div class="sidebar-term-name">星海-大盘键盘乐<br>260512期<br>小涵老师 · B团</div>
+  </div>
+
+  <div class="sidebar-section">团队 / 销售组</div>
+  <div class="sidebar-team active" onclick="showSection('all')">
+    <span class="team-dot gray"></span>
+    <span class="team-label">全部团队</span>
+  </div>
+  <div class="sidebar-team" onclick="showSection('huanxin')">
+    <span class="team-dot red"></span>
+    <span class="team-label">焕新前行</span>
+    <span class="team-r" style="color:#f87171">78.44</span>
+  </div>
+  <div class="sidebar-team" onclick="showSection('jiuxiao')">
+    <span class="team-dot green"></span>
+    <span class="team-label">九霄之上</span>
+    <span class="team-r" style="color:#4ade80">91.33</span>
+  </div>
+
+  <div class="sidebar-section">快速入口</div>
+  <div class="sidebar-nav">
+    <button class="nav-btn active" onclick="scrollTo('overview')">📊 营期总览</button>
+    <button class="nav-btn" onclick="scrollTo('teams')">👥 团队对比</button>
+    <button class="nav-btn" onclick="scrollTo('bench')">📈 同期参照</button>
+    <button class="nav-btn" onclick="window.location.href='level2.html'">⚠ 焕新前行详情</button>
+  </div>
+
+  <div style="padding:14px;margin-top:auto;border-top:1px solid #334155;font-size:10px;color:#475569;line-height:1.6">
+    数据截止 2026-05-17<br>
+    Level 1 · 营期总览<br>
+    <a href="level2.html" style="color:#60a5fa;text-decoration:none">Level 2 →</a>
+    <a href="level3.html" style="color:#60a5fa;text-decoration:none;margin-left:6px">Level 3 →</a>
+    <a href="level4.html" style="color:#60a5fa;text-decoration:none;margin-left:6px">Level 4 →</a>
+  </div>
+</div>
+
+<!-- ═══════════════ 主内容区 ═══════════════ -->
+<div class="main">
 
   <!-- 页头 -->
-  <div class="header">
-    <div class="header-eyebrow">销售诊断报告 · Level 1 · B团内部诊断</div>
-    <h1>星海-大盘键盘乐-260512期 · 小涵老师 B团</h1>
-    <div class="meta">行课 2026-05-12 ～ 2026-05-17 · B团两组（焕新前行 + 九霄之上）内部对比 + 同期 8 个外部参照盘 · 数据截止 2026-05-17</div>
-    <div class="header-purpose">B团本期共两个销售组：焕新前行（5人）和九霄之上（6人）。两组同老师、同营期，R 值差异直指销售执行问题。点击「查看原因分析」逐层追因（销售个人 → 行为维度 → 话术实证）。</div>
+  <div class="page-header" id="overview">
+    <div class="page-eyebrow">销售诊断报告 · Level 1 · 营期总览</div>
+    <div class="page-title">星海-大盘键盘乐-260512期 · 小涵老师 B团</div>
+    <div class="page-meta">行课 2026-05-12 ～ 2026-05-17 · B团共 2 个销售组（焕新前行 5人 + 九霄之上 6人）· 对比同期 8 个外部参照盘</div>
   </div>
 
-  <!-- 营期汇总 -->
-  <div class="summary-row">
-    <div class="sum-card">
-    <div class="sum-label">诊断主体</div>
-        <div class="sum-value" style="font-size:16px">焕新前行</div>
-        <div class="sum-sub">正式 + 测试合并口径</div>
+  <!-- ── 营期 KPI 概览 ── -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-label">B团总 Leads</div>
+      <div class="kpi-value">5,083</div>
+      <div class="kpi-sub">焕新前行 2,196 + 九霄 2,887</div>
     </div>
-    <div class="sum-card">
-    <div class="sum-label">B团 Leads（合并）</div>
-        <div class="sum-value">2,196</div>
-        <div class="sum-sub">正式 1,178 + 测试 1,018</div>
+    <div class="kpi-card">
+      <div class="kpi-label">焕新前行 R 值</div>
+      <div class="kpi-value red">78.44</div>
+      <div class="kpi-sub down">上期 93.96（-16.5%）</div>
     </div>
-    <div class="sum-card">
-      <div class="sum-label">R 值中位数（大盘）</div>
-      <div class="sum-value">99.28</div>
-      <div class="sum-sub">8 个参照盘中位</div>
+    <div class="kpi-card">
+      <div class="kpi-label">九霄之上 R 值</div>
+      <div class="kpi-value green">91.33</div>
+      <div class="kpi-sub up">同期稳定，无异常</div>
     </div>
-    <div class="sum-card">
-    <div class="sum-label">B团有效 GMV</div>
-        <div class="sum-value red">17.2 万</div>
-        <div class="sum-sub">上期 22.0 万（-21.8%）</div>
+    <div class="kpi-card">
+      <div class="kpi-label">同期参照盘中位 R</div>
+      <div class="kpi-value">99.28</div>
+      <div class="kpi-sub">8 个外部参照盘中位数</div>
     </div>
-    <div class="sum-card">
-    <div class="sum-label">B团异常盘</div>
-        <div class="sum-value red">1 盘</div>
-        <div class="sum-sub">低于同期参照中位 -21%</div>
+    <div class="kpi-card">
+      <div class="kpi-label">焕新前行 vs 参照</div>
+      <div class="kpi-value red">-21%</div>
+      <div class="kpi-sub down">需优先关注</div>
     </div>
   </div>
 
-  <!-- 异常 alert -->
-  <div class="alert">
-    <div class="alert-icon">⚠</div>
-    <div>
-      <div class="alert-title">焕新前行 R 值异常，需优先关注</div>
-      <div class="alert-text">
-        合并 R 值 <strong>78.44</strong>（260512期正式盘 + 测试盘，共 5 名销售），低于同期参照盘中位 <strong>-21.0%</strong>，自身环比上期下滑 <strong>-16.5%</strong>。
-        同团另一组九霄之上（同营期同老师，R=<strong>91.33</strong>）表现正常，直接排除老师/课程共因，问题锁定在焕新前行销售执行层面。
+  <!-- ── 团队卡片 ── -->
+  <div class="sidebar-section" id="teams" style="color:#64748b;font-size:11px;font-weight:700;letter-spacing:.06em;margin-bottom:10px;text-transform:uppercase">B团销售组对比</div>
+  <div class="team-cards">
+
+    <!-- 焕新前行 ⚠ -->
+    <div class="team-card anomaly">
+      <div class="team-card-top">
+        <div>
+          <div class="team-card-name red">⚠ 焕新前行</div>
+          <div class="team-card-meta">260512期 · B团正式+测试 · 5名销售</div>
+        </div>
+        <div class="team-card-badge danger">异常</div>
       </div>
-      <div style="margin-top:6px">
-        <span class="flag-tag">R 低于大盘 -21%</span>
-        <span class="flag-tag">环比 -16.5%</span>
-        <span class="flag-tag">外R 低于大盘 -36%</span>
-        <span class="flag-tag">年课占比 57.7%（低）</span>
+
+      <div class="team-metrics">
+        <div class="tm-item">
+          <div class="tm-label">计量 Leads</div>
+          <div class="tm-val">2,196</div>
+          <div class="tm-sub down">上期 2,337 (-6%)</div>
+        </div>
+        <div class="tm-item">
+          <div class="tm-label">R 值</div>
+          <div class="tm-val red">78.44</div>
+          <div class="tm-sub down">上期 93.96 (-16.5%)</div>
+        </div>
+        <div class="tm-item">
+          <div class="tm-label">有效 GMV</div>
+          <div class="tm-val red">17.2万</div>
+          <div class="tm-sub down">上期 22.0万 (-22%)</div>
+        </div>
+        <div class="tm-item">
+          <div class="tm-label">年课成单</div>
+          <div class="tm-val red">30单</div>
+          <div class="tm-sub down">年课占比 57.7%↓</div>
+        </div>
+        <div class="tm-item">
+          <div class="tm-label">外 R 值</div>
+          <div class="tm-val red">26.5</div>
+          <div class="tm-sub down">vs参照 -36%</div>
+        </div>
+        <div class="tm-item">
+          <div class="tm-label">转化率</div>
+          <div class="tm-val red">3.6%</div>
+          <div class="tm-sub down">参照中位 4.56%</div>
+        </div>
+      </div>
+
+      <!-- vs 参照偏差 -->
+      <div class="dev-row">
+        <span class="dev-label">vs 参照中位</span>
+        <div class="dev-track">
+          <div class="dev-center"></div>
+          <div class="dev-fill neg" style="width:42%"></div>
+        </div>
+        <span class="dev-pct red">-21.0%</span>
+      </div>
+
+      <!-- 5名销售列表 -->
+      <div class="sales-list">
+        <div style="font-size:10px;color:#94a3b8;margin-bottom:6px">团内 5 名销售 · R 值分布</div>
+        <div class="sales-row">
+          <span class="sales-name">廖杰01</span>
+          <span class="sales-r green">110.7</span>
+          <div class="sales-bar-wrap"><div class="sales-bar" style="width:88%"></div></div>
+        </div>
+        <div class="sales-row">
+          <span class="sales-name">陈芳</span>
+          <span class="sales-r">85.3</span>
+          <div class="sales-bar-wrap"><div class="sales-bar" style="width:68%"></div></div>
+        </div>
+        <div class="sales-row">
+          <span class="sales-name">廖祥佳</span>
+          <span class="sales-r">80.1</span>
+          <div class="sales-bar-wrap"><div class="sales-bar" style="width:64%"></div></div>
+        </div>
+        <div class="sales-row">
+          <span class="sales-name">柳千一</span>
+          <span class="sales-r">72.4</span>
+          <div class="sales-bar-wrap"><div class="sales-bar red" style="width:58%"></div></div>
+        </div>
+        <div class="sales-row">
+          <span class="sales-name">张小超</span>
+          <span class="sales-r red">54.2</span>
+          <div class="sales-bar-wrap"><div class="sales-bar red" style="width:43%"></div></div>
+        </div>
+      </div>
+
+      <div style="margin-top:10px">
+        <button class="drill-btn primary" onclick="window.location.href='level2.html'">查看原因分析 →</button>
       </div>
     </div>
+
+    <!-- 九霄之上 ✓ -->
+    <div class="team-card stable">
+      <div class="team-card-top">
+        <div>
+          <div class="team-card-name green">✓ 九霄之上</div>
+          <div class="team-card-meta">260512期 · B团正式盘 · 6名销售</div>
+        </div>
+        <div class="team-card-badge ok">稳定</div>
+      </div>
+
+      <div class="team-metrics">
+        <div class="tm-item">
+          <div class="tm-label">计量 Leads</div>
+          <div class="tm-val">2,887</div>
+          <div class="tm-sub">同期正常</div>
+        </div>
+        <div class="tm-item">
+          <div class="tm-label">R 值</div>
+          <div class="tm-val green">91.33</div>
+          <div class="tm-sub up">稳定，无环比异常</div>
+        </div>
+        <div class="tm-item">
+          <div class="tm-label">有效 GMV</div>
+          <div class="tm-val green">26.4万</div>
+          <div class="tm-sub">稳定</div>
+        </div>
+        <div class="tm-item">
+          <div class="tm-label">年课成单</div>
+          <div class="tm-val">41单</div>
+          <div class="tm-sub">年课占比 46.6%</div>
+        </div>
+        <div class="tm-item">
+          <div class="tm-label">外 R 值</div>
+          <div class="tm-val">—</div>
+          <div class="tm-sub">未细查</div>
+        </div>
+        <div class="tm-item">
+          <div class="tm-label">转化率</div>
+          <div class="tm-val">—</div>
+          <div class="tm-sub">未细查</div>
+        </div>
+      </div>
+
+      <div class="dev-row">
+        <span class="dev-label">vs 参照中位</span>
+        <div class="dev-track">
+          <div class="dev-center"></div>
+          <div class="dev-fill neg" style="width:16%"></div>
+        </div>
+        <span class="dev-pct gray">-8.0%</span>
+      </div>
+
+      <div style="margin-top:10px;padding:10px 12px;background:#f0fdf4;border-radius:8px;font-size:12px;color:#15803d;line-height:1.6">
+        📌 <strong>共因排除参照：</strong>同营期同老师同 term，九霄稳定 → 焕新前行的问题是销售执行，不是课程或老师原因。
+      </div>
+
+      <div style="margin-top:10px">
+        <button class="drill-btn disabled">暂未做细致分析</button>
+      </div>
+    </div>
+
   </div>
 
-  <!-- 盘排名表 -->
-  <div class="section-title">B团 vs 同期参照盘 · R 值排名（由高至低）</div>
-  <div class="rank-table">
-    <table>
+  <!-- ── 同期外部参照盘 ── -->
+  <div id="bench" class="bench-section">
+    <div class="bench-header">
+      📊 同期外部参照盘 · R 值排名 <span style="font-weight:400;color:#94a3b8;font-size:11px">（行课时间与 260512期重叠的其他团，提供市场基准）</span>
+    </div>
+    <table class="bench-table">
       <thead>
         <tr>
-          <th style="width:36px">#</th>
+          <th>#</th>
           <th>盘名</th>
-          <th style="text-align:right">Leads</th>
-          <th style="text-align:right">R 值</th>
-          <th style="text-align:right">vs 大盘</th>
-          <th style="text-align:right">R 环比</th>
-          <th style="text-align:right">年课占比</th>
-          <th style="text-align:right">操作</th>
+          <th>所属</th>
+          <th>Leads</th>
+          <th>R 值</th>
+          <th>vs 中位</th>
+          <th>年课占比</th>
         </tr>
       </thead>
       <tbody>
-
-        <!-- 同期外部参照盘分区标题 -->
-        <tr style="background:#f8fafc">
-          <td colspan="8" style="padding:7px 12px;font-size:11px;color:#6366f1;font-weight:700;letter-spacing:.05em">
-            📊 同期外部参照盘（同一行课周，其他团队；提供市场基准）
-          </td>
-        </tr>
-
-        <!-- 1 勇毅笃行 C团 -->
-        <tr>
-          <td style="color:#94a3b8;font-size:12px">1</td>
-          <td>
-            <span class="team-name">勇毅笃行</span>
-            <span class="team-period">C团 · 260514期</span>
-          </td>
-          <td>2,445</td>
-          <td><strong>122.64</strong></td>
-          <td>
-            <div class="dev-bar-wrap">
-              <div class="dev-bar pos" style="width:46px"></div>
-              <span class="dev-val green">+23.5%</span>
-            </div>
-          </td>
-          <td><span class="qoq flat">—</span></td>
-          <td><span class="yr-rate ok">48.4%</span></td>
-          <td><button class="drill-btn disabled">未覆盖分析</button></td>
-        </tr>
-
-        <!-- 2 鹏程万里 E团 -->
-        <tr>
-          <td style="color:#94a3b8;font-size:12px">2</td>
-          <td>
-            <span class="team-name">鹏程万里</span>
-            <span class="team-period">E团 · 260508期</span>
-          </td>
-          <td>2,629</td>
-          <td><strong>114.47</strong></td>
-          <td>
-            <div class="dev-bar-wrap">
-              <div class="dev-bar pos" style="width:38px"></div>
-              <span class="dev-val green">+15.3%</span>
-            </div>
-          </td>
-          <td><span class="qoq flat">—</span></td>
-          <td><span class="yr-rate ok">—</span></td>
-          <td><button class="drill-btn disabled">未覆盖分析</button></td>
-        </tr>
-
-        <!-- 3 滔滔不绝 D团 -->
-        <tr>
-          <td style="color:#94a3b8;font-size:12px">3</td>
-          <td>
-            <span class="team-name">滔滔不绝</span>
-            <span class="team-period">D团 · 260516期</span>
-          </td>
-          <td>2,020</td>
-          <td><strong>112.10</strong></td>
-          <td>
-            <div class="dev-bar-wrap">
-              <div class="dev-bar pos" style="width:36px"></div>
-              <span class="dev-val green">+12.9%</span>
-            </div>
-          </td>
-          <td><span class="qoq flat">—</span></td>
-          <td><span class="yr-rate ok">—</span></td>
-          <td><button class="drill-btn disabled">未覆盖分析</button></td>
-        </tr>
-
-        <!-- 4 勇往直前 E团 -->
-        <tr>
-          <td style="color:#94a3b8;font-size:12px">4</td>
-          <td>
-            <span class="team-name">勇往直前</span>
-            <span class="team-period">E团 · 260508期</span>
-          </td>
-          <td>2,098</td>
-          <td><strong>99.61</strong></td>
-          <td>
-            <div class="dev-bar-wrap">
-              <div class="dev-bar pos" style="width:2px"></div>
-              <span class="dev-val green">+0.3%</span>
-            </div>
-          </td>
-          <td><span class="qoq flat">—</span></td>
-          <td><span class="yr-rate ok">—</span></td>
-          <td><button class="drill-btn disabled">未覆盖分析</button></td>
-        </tr>
-
-        <!-- 大盘中位线 -->
-        <tr class="bench-med">
-          <td colspan="8" style="text-align:center;padding:6px 12px;font-size:11px;color:#6366f1;font-weight:700;background:#eef2ff">
-            ── 大盘中位线 R = 99.28 ──（本周 8 个参照盘中位数）
-          </td>
-        </tr>
-
-        <!-- 5 踏浪逐星 A团 -->
-        <tr>
-          <td style="color:#94a3b8;font-size:12px">5</td>
-          <td>
-            <span class="team-name">踏浪逐星</span>
-            <span class="team-period">A团 · 260510期</span>
-          </td>
-          <td>2,652</td>
-          <td><strong>98.94</strong></td>
-          <td>
-            <div class="dev-bar-wrap">
-              <div class="dev-bar neg" style="width:2px"></div>
-              <span class="dev-val gray">-0.3%</span>
-            </div>
-          </td>
-          <td><span class="qoq flat">—</span></td>
-          <td><span class="yr-rate ok">—</span></td>
-          <td><button class="drill-btn disabled">未覆盖分析</button></td>
-        </tr>
-
-        <!-- 6 峰回路转 D团 -->
-        <tr>
-          <td style="color:#94a3b8;font-size:12px">6</td>
-          <td>
-            <span class="team-name">峰回路转</span>
-            <span class="team-period">D团 · 260516期</span>
-          </td>
-          <td>2,653</td>
-          <td><strong>98.85</strong></td>
-          <td>
-            <div class="dev-bar-wrap">
-              <div class="dev-bar neg" style="width:2px"></div>
-              <span class="dev-val gray">-0.4%</span>
-            </div>
-          </td>
-          <td><span class="qoq flat">—</span></td>
-          <td><span class="yr-rate ok">—</span></td>
-          <td><button class="drill-btn disabled">未覆盖分析</button></td>
-        </tr>
-
-        <!-- 九霄之上（同团内部参照，260512期 B团另一销售组） -->
-        <tr style="background:#f0fdf4">
-          <td style="color:#6366f1;font-size:12px;font-weight:700">📌</td>
-          <td>
-            <span class="team-name" style="color:#16a34a">九霄之上 <span style="font-size:10px;color:#6366f1;font-weight:400">同团内部参照</span></span>
-            <span class="team-period">260512期 B团 · 同营期另一销售组（6人）</span>
-          </td>
-          <td>2,887</td>
-          <td><strong style="color:#16a34a">91.33</strong></td>
-          <td>
-            <div class="dev-bar-wrap">
-              <div class="dev-bar neg" style="width:10px"></div>
-              <span class="dev-val gray">-8.0%</span>
-            </div>
-          </td>
-          <td><span class="qoq flat">—（同期）</span></td>
-          <td><span class="yr-rate ok">46.6%</span></td>
-          <td><button class="drill-btn disabled">稳定·暂未分析</button></td>
-        </tr>
-
-        <!-- 8 福星高照 C团 -->
-        <tr>
-          <td style="color:#94a3b8;font-size:12px">8</td>
-          <td>
-            <span class="team-name">福星高照</span>
-            <span class="team-period">C团 · 260514期</span>
-          </td>
-          <td>1,847</td>
-          <td><strong>92.91</strong></td>
-          <td>
-            <div class="dev-bar-wrap">
-              <div class="dev-bar neg" style="width:9px"></div>
-              <span class="dev-val gray">-6.4%</span>
-            </div>
-          </td>
-          <td><span class="qoq flat">—</span></td>
-          <td><span class="yr-rate ok">45.0%</span></td>
-          <td><button class="drill-btn disabled">未覆盖分析</button></td>
-        </tr>
-
-        <!-- 9 锐不可当 A团 -->
-        <tr>
-          <td style="color:#94a3b8;font-size:12px">9</td>
-          <td>
-            <span class="team-name">锐不可当</span>
-            <span class="team-period">A团 · 260510期</span>
-          </td>
-          <td>3,612</td>
-          <td><strong>78.64</strong></td>
-          <td>
-            <div class="dev-bar-wrap">
-              <div class="dev-bar neg" style="width:25px"></div>
-              <span class="dev-val gray">-20.8%</span>
-            </div>
-          </td>
-          <td><span class="qoq flat">—</span></td>
-          <td><span class="yr-rate ok">—</span></td>
-          <td><button class="drill-btn disabled">未覆盖分析</button></td>
-        </tr>
-
-        <!-- B团本期盘分区标题 -->
-        <tr style="background:#fff8f0">
-          <td colspan="8" style="padding:7px 12px;font-size:11px;color:#ea580c;font-weight:700;letter-spacing:.05em">
-            🔍 B团本期盘（星海-大盘键盘乐-260512期-小涵老师-B团，诊断主体）
-          </td>
-        </tr>
-
-        <!-- ⚠ 焕新前行 B团 异常 -->
-        <tr class="anomaly">
-          <td style="color:#dc2626;font-size:12px;font-weight:800">⚠</td>
-          <td>
-            <span class="team-name red">焕新前行</span>
-            <span class="team-period">B团（正式+测试合并） · 260512期 · 5名销售</span>
-          </td>
-          <td><strong>2,196</strong></td>
-          <td><strong style="color:#dc2626;font-size:15px">78.44</strong></td>
-          <td>
-            <div class="dev-bar-wrap">
-              <div class="dev-bar neg" style="width:50px"></div>
-              <span class="dev-val red">-21.0%</span>
-            </div>
-          </td>
-          <td><span class="qoq down">-16.5%</span></td>
-          <td><span class="yr-rate low">57.7%⬇</span></td>
-          <td>
-            <button class="drill-btn primary" onclick="window.location.href='level2.html'">
-              查看原因分析 →
-            </button>
-          </td>
-        </tr>
-
+        <tr><td>1</td><td>勇毅笃行</td><td style="color:#94a3b8;font-size:11px">C团 260514期</td><td>2,445</td><td style="font-weight:700;color:#16a34a">122.64</td><td style="color:#16a34a;font-weight:700">+23.5%</td><td>48.4%</td></tr>
+        <tr><td>2</td><td>鹏程万里</td><td style="color:#94a3b8;font-size:11px">E团 260508期</td><td>2,629</td><td style="font-weight:700;color:#16a34a">114.47</td><td style="color:#16a34a;font-weight:700">+15.3%</td><td>—</td></tr>
+        <tr><td>3</td><td>滔滔不绝</td><td style="color:#94a3b8;font-size:11px">D团 260516期</td><td>2,020</td><td style="font-weight:700;color:#16a34a">112.10</td><td style="color:#16a34a;font-weight:700">+12.9%</td><td>—</td></tr>
+        <tr><td>4</td><td>勇往直前</td><td style="color:#94a3b8;font-size:11px">E团 260508期</td><td>2,098</td><td style="font-weight:700">99.61</td><td style="color:#16a34a;font-weight:700">+0.3%</td><td>—</td></tr>
+        <tr class="bench-median-row"><td colspan="7">── 参照中位线 R = 99.28 ──</td></tr>
+        <tr><td>5</td><td>踏浪逐星</td><td style="color:#94a3b8;font-size:11px">A团 260510期</td><td>2,652</td><td style="font-weight:700">98.94</td><td style="color:#94a3b8">-0.3%</td><td>—</td></tr>
+        <tr><td>6</td><td>峰回路转</td><td style="color:#94a3b8;font-size:11px">D团 260516期</td><td>2,653</td><td style="font-weight:700">98.85</td><td style="color:#94a3b8">-0.4%</td><td>—</td></tr>
+        <tr><td>7</td><td>福星高照</td><td style="color:#94a3b8;font-size:11px">C团 260514期</td><td>1,847</td><td style="font-weight:700">92.91</td><td style="color:#94a3b8">-6.4%</td><td>45.0%</td></tr>
+        <tr><td>8</td><td>锐不可当</td><td style="color:#94a3b8;font-size:11px">A团 260510期</td><td>3,612</td><td style="font-weight:700;color:#f59e0b">78.64</td><td style="color:#f59e0b">-20.8%</td><td>—</td></tr>
+        <tr class="bench-b-row"><td>⚠</td><td><strong>焕新前行</strong></td><td style="color:#dc2626;font-size:11px">B团 260512期</td><td><strong>2,196</strong></td><td style="font-weight:800;color:#dc2626;font-size:14px">78.44</td><td style="color:#dc2626;font-weight:700">-21.0%</td><td style="color:#f59e0b;font-weight:700">57.7%↓</td></tr>
       </tbody>
     </table>
-  </div>
-
-  <!-- 大盘说明 -->
-  <div class="section-title">同期参照盘口径说明</div>
-  <div class="bench-note">
-    <strong>参照盘选取口径：</strong>行课时间与 B团260512期（2026-05-12～05-17）实际重叠的其他团盘，过滤测试/自播/Leads&lt;500，共 8 盘。
-    <br>包括：A团 260510期（2盘）、C团 260514期（2盘）、D团 260516期（2盘）、E团 260508期（2盘）。这些团的「期号」与 B团不同，但上课时间是同一周，代表相同的市场环境。
-    <br><br><strong>参照中位 R 值：99.28</strong>　外R中位：41.60　转化率中位：4.56%
-    <br><br>
-    <strong>为什么用「中位数」作基准？</strong>避免头部盘（勇毅笃行 R=122.6）拉高基准，让绩效评估更公平。
-    <br><strong>九霄之上</strong>：B团内部另一销售组，<strong>同在 260512期、同老师、同 term（9985）</strong>，R=91.33，表现稳定。这是最强的共因排除——排除了老师、课程、市场环境所有共因，焕新前行的 R 下滑只能是销售执行问题。
-  </div>
-
-  <div class="footnote">
-    数据来源：CRM resultData / term 9985（正式）+ 9988（测试）合并；参照盘来自 term 9986/9987/9916/10090。<br>
-    生成时间：2026-05-25 15:59 · 诊断报告 Level 1 → <a href="level2.html">Level 2（焕新前行团队分析）</a> → <a href="level3.html">Level 3（销售个人）</a> → <a href="level4.html">Level 4（话术实证）</a>
+    <div class="bench-note-small">
+      口径：行课时间与 260512期（05-12～05-17）实际重叠，过滤测试/自播/Leads&lt;500。<br>
+      中位数作为基准：避免头部盘（勇毅笃行 R=122.6）拉高基准，评估更公平。<br>
+      <strong>焕新前行位于末位，同期九霄之上（同团同 term R=91.33）稳定，共因已排除。</strong>
+    </div>
   </div>
 
 </div>
+
+<script>
+function showSection(team) {
+  document.querySelectorAll('.sidebar-team').forEach(el => el.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});
+  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+</script>
 </body>
 </html>
