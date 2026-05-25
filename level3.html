@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Level 3 · 张小超 个人诊断</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,'PingFang SC',sans-serif;background:#f0f2f5;color:#1a2035;font-size:14px}
+.page{max-width:860px;margin:0 auto;padding:20px 16px 60px}
+
+/* breadcrumb */
+.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:14px;font-size:12px;color:#64748b;flex-wrap:wrap}
+.breadcrumb a{color:#2563eb;text-decoration:none}.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb .sep{color:#cbd5e1}
+
+/* header */
+.header{margin-bottom:16px}
+.header h1{font-size:16px;font-weight:800;color:#1a2035;display:flex;align-items:center;gap:8px}
+.header .meta{font-size:12px;color:#64748b;margin-top:3px}
+.verdict-tag{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;background:#fee2e2;color:#dc2626}
+
+/* 结论摘要 */
+.verdict-box{background:#fef2f2;border:2px solid #fca5a5;border-radius:10px;padding:14px 18px;margin-bottom:18px}
+.vb-title{font-size:13px;font-weight:800;color:#dc2626;margin-bottom:10px}
+.vb-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#7f1d1d;line-height:1.6;margin-bottom:6px}
+.vb-num{min-width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;margin-top:1px}
+.n-red{background:#dc2626;color:#fff}
+.n-orange{background:#f59e0b;color:#fff}
+
+/* tab bar */
+.tab-bar{display:flex;gap:0;margin-bottom:16px;background:#fff;border-radius:12px;padding:4px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.tab-btn{flex:1;padding:9px 10px;border:none;background:none;font-size:13px;font-weight:600;color:#64748b;cursor:pointer;border-radius:8px;transition:all .15s}
+.tab-btn.active{background:#1d4ed8;color:#fff}
+.tab-btn:hover:not(.active){background:#f1f5f9}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* section */
+.section{background:#fff;border-radius:12px;padding:16px 20px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.section-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #f1f5f9}
+.section-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.icon-red{background:#fee2e2}
+.icon-orange{background:#fef3c7}
+.icon-blue{background:#eff6ff}
+.icon-green{background:#f0fdf4}
+.icon-purple{background:#f5f3ff}
+.section-title{font-size:14px;font-weight:800;flex:1}
+.section-flag{font-size:11px;font-weight:700;padding:2px 9px;border-radius:10px}
+.flag-red{background:#fee2e2;color:#dc2626}
+.flag-orange{background:#fef3c7;color:#92400e}
+.flag-ok{background:#f0fdf4;color:#15803d}
+.flag-purple{background:#f5f3ff;color:#7c3aed}
+
+/* 对比行 */
+.cmp-label{font-size:11px;color:#64748b;margin-bottom:6px}
+.cmp-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.cmp-name{font-size:12px;font-weight:700;min-width:52px}
+.cmp-bar-wrap{flex:1;height:20px;background:#f1f5f9;border-radius:4px;overflow:hidden;position:relative}
+.cmp-bar{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:6px;font-size:11px;font-weight:700;color:#fff;white-space:nowrap}
+.cmp-val{font-size:12px;font-weight:700;min-width:44px;text-align:right}
+.name-lj{color:#16a34a}
+.name-zxc{color:#dc2626}
+
+/* 分时段 R 时间轴 */
+.timeline{margin-top:4px}
+.tl-day{margin-bottom:10px}
+.tl-day-label{font-size:11px;font-weight:700;color:#64748b;margin-bottom:4px}
+.tl-slots{display:flex;gap:4px;flex-wrap:wrap}
+.tl-slot{border-radius:6px;padding:5px 7px;min-width:70px;text-align:center}
+.slot-label{font-size:9px;color:#94a3b8;margin-bottom:2px}
+.slot-lj{font-size:12px;font-weight:700;color:#16a34a}
+.slot-zxc{font-size:12px;font-weight:700;color:#dc2626}
+.slot-zero{font-size:12px;color:#d1d5db}
+.slot-bg-hot{background:#fef9c3}
+.slot-bg-warm{background:#f0fdf4}
+.slot-bg-cold{background:#f8fafc}
+.slot-bg-zero{background:#f8fafc}
+
+/* 漏斗 */
+.funnel{display:flex;gap:0;align-items:stretch}
+.funnel-step{flex:1;text-align:center;position:relative;padding:10px 6px}
+.funnel-step:not(:last-child)::after{content:'→';position:absolute;right:-8px;top:50%;transform:translateY(-50%);color:#cbd5e1;font-size:16px;z-index:1}
+.fs-label{font-size:10px;color:#94a3b8;margin-bottom:4px}
+.fs-lj{font-size:14px;font-weight:800;color:#16a34a}
+.fs-zxc{font-size:14px;font-weight:800;color:#dc2626}
+.fs-desc{font-size:10px;color:#94a3b8;margin-top:2px}
+
+/* 分层外呼表 */
+.call-table{width:100%;border-collapse:collapse;font-size:12px}
+.call-table th{text-align:left;padding:6px 8px;background:#f8fafc;font-weight:700;color:#64748b;font-size:11px;border-bottom:1px solid #e2e8f0}
+.call-table td{padding:7px 8px;border-bottom:1px solid #f1f5f9}
+.call-table tr:last-child td{border-bottom:none}
+.tier-badge{display:inline-block;padding:1px 7px;border-radius:10px;font-size:11px;font-weight:700}
+.tier-S{background:#fef3c7;color:#92400e}
+.tier-A{background:#eff6ff;color:#1d4ed8}
+.tier-B{background:#f0fdf4;color:#15803d}
+.tier-C{background:#f8fafc;color:#475569}
+.tier-D{background:#f1f5f9;color:#94a3b8}
+.diff-red{color:#dc2626;font-weight:700}
+.diff-ok{color:#16a34a}
+
+/* 课程结构 */
+.course-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.course-card{border-radius:8px;padding:10px 14px;border:1px solid #e2e8f0}
+.course-card.lj{border-color:#bbf7d0;background:#f0fdf4}
+.course-card.zxc{border-color:#fecaca;background:#fef2f2}
+.cc-name{font-size:12px;font-weight:800;margin-bottom:8px}
+.cc-row{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;align-items:center}
+.cc-label{color:#64748b}
+.cc-val{font-weight:700}
+
+/* action box */
+.action-box{background:#fffbeb;border:1.5px solid #fcd34d;border-radius:10px;padding:12px 16px;margin-top:12px}
+.ab-title{font-size:12px;font-weight:800;color:#92400e;margin-bottom:8px}
+.ab-item{font-size:12px;color:#78350f;line-height:1.6;margin-bottom:4px;display:flex;gap:6px}
+.ab-num{font-weight:800;color:#d97706}
+
+/* 聊天实证专用 */
+.chat-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.chat-stat-card{border-radius:10px;padding:12px 14px;border:1px solid #e2e8f0;background:#fafafa}
+.chat-stat-card.lj{border-color:#bbf7d0;background:#f0fdf4}
+.chat-stat-card.zxc{border-color:#fecaca;background:#fef2f2}
+.cs-head{font-size:12px;font-weight:800;margin-bottom:10px}
+.cs-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-bottom:5px}
+.cs-label{color:#64748b}
+.cs-val{font-weight:700}
+.cs-val-red{font-weight:700;color:#dc2626}
+.cs-val-green{font-weight:700;color:#16a34a}
+.cs-val-warn{font-weight:700;color:#d97706;background:#fef9c3;padding:1px 6px;border-radius:4px}
+
+/* 时序甘特 */
+.gantt-wrap{background:#f8fafc;border-radius:8px;padding:12px;margin-bottom:10px}
+.gantt-label{font-size:11px;font-weight:700;color:#64748b;margin-bottom:8px}
+.gantt-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.gantt-name{font-size:12px;font-weight:700;min-width:54px}
+.gantt-track{flex:1;height:24px;background:#e2e8f0;border-radius:6px;position:relative;overflow:visible}
+.gantt-seg{position:absolute;top:0;height:100%;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden}
+.gantt-seg-label{position:absolute;top:0;height:100%;display:flex;align-items:center;font-size:9px;color:#64748b;white-space:nowrap;padding-left:2px}
+.seg-blue{background:#3b82f6}
+.seg-red{background:#ef4444}
+.seg-orange{background:#f97316}
+.seg-gray{background:#94a3b8}
+
+/* 话术对比卡 */
+.msg-compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.msg-card{border-radius:10px;padding:12px 14px;font-size:12px;line-height:1.7}
+.msg-card.good{background:#f0fdf4;border:1.5px solid #86efac}
+.msg-card.bad{background:#fef2f2;border:1.5px solid #fca5a5}
+.msg-from{font-size:11px;font-weight:800;margin-bottom:6px}
+.msg-from.lj{color:#16a34a}
+.msg-from.zxc{color:#dc2626}
+.msg-bubble{background:#fff;border-radius:8px;padding:8px 10px;line-height:1.6;color:#374151;border:1px solid #e5e7eb;white-space:pre-wrap;word-break:break-all}
+.msg-hook{background:#fef9c3;border-radius:4px;padding:1px 5px;font-weight:700;color:#92400e}
+.msg-missing{background:#fee2e2;border-radius:4px;padding:1px 5px;font-weight:700;color:#dc2626;font-style:italic}
+.msg-note{font-size:11px;color:#64748b;margin-top:6px;line-height:1.5}
+
+/* 消息流时间线 */
+.msg-timeline{position:relative;padding-left:14px;margin-bottom:12px}
+.msg-timeline::before{content:'';position:absolute;left:5px;top:0;bottom:0;width:2px;background:#e2e8f0}
+.mt-item{position:relative;margin-bottom:8px;padding-left:10px}
+.mt-item::before{content:'';position:absolute;left:-9px;top:5px;width:8px;height:8px;border-radius:50%}
+.mt-item.sales::before{background:#3b82f6}
+.mt-item.cust::before{background:#94a3b8}
+.mt-time{font-size:10px;color:#94a3b8;margin-right:6px}
+.mt-who{font-size:10px;font-weight:700;margin-right:4px}
+.mt-who.lj{color:#16a34a}
+.mt-who.zxc{color:#dc2626}
+.mt-who.c{color:#94a3b8}
+.mt-text{font-size:12px;color:#374151;line-height:1.5}
+
+/* sop fix */
+.sop-row{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:8px;margin-bottom:8px;font-size:12px;line-height:1.6}
+.sop-row.bad{background:#fef2f2;border-left:3px solid #ef4444}
+.sop-row.good{background:#f0fdf4;border-left:3px solid #22c55e}
+.sop-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.sop-text{flex:1;color:#374151}
+.sop-text strong{color:#1a2035}
+
+.footnote{font-size:11px;color:#94a3b8;margin-top:24px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- 面包屑 -->
+  <div class="breadcrumb">
+    <a href="level1.html">Level 1 · 营期概览</a>
+    <span class="sep">›</span>
+    <a href="level2.html">Level 2 · 焕新前行</a>
+    <span class="sep">›</span>
+    <span>张小超 · 个人诊断 3</span>
+  </div>
+
+  <div class="header">
+    <h1>Level 3 · 张小超 个人行为诊断 <span class="verdict-tag">高优先级</span></h1>
+    <div class="meta">测试盘 9988 · 计量 leads=512 · R=50.41（大盘中位 -49%）· 对照：廖杰01（同盘 leads=506，R=128.12）</div>
+  </div>
+
+  <!-- 诊断结论 -->
+  <div class="verdict-box">
+    <div class="vb-title">⚡ 诊断结论：三个根因</div>
+    <div class="vb-item">
+      <div class="vb-num n-red">1</div>
+      <div><strong>直播中承接能力差：</strong>销1直播中 R 仅 15.55，廖杰同时段 86.52（差 5.6x）。聊天数据揭示根因——张小超在直播中大量推送链接（156次）替代 1v1 对话，直播结束后仍发了 241 条已失效的直播链接。</div>
+    </div>
+    <div class="vb-item">
+      <div class="vb-num n-red">2</div>
+      <div><strong>S/A 层高意向客户外呼严重不足：</strong>S层外呼覆盖率 15.6%（廖杰 34.9%），平均通话时长 51秒（廖杰 230秒）。高意向客户没被深度跟进，年课推成率只有廖杰 1/3。</div>
+    </div>
+    <div class="vb-item">
+      <div class="vb-num n-orange">+</div>
+      <div><strong>团队系统性问题（不只是张小超）：</strong>外R值全团均低于大盘 -36%，包括廖杰。直播后私域承接 SOP 整体偏弱，需团队级别调整。</div>
+    </div>
+  </div>
+
+  <!-- Tab 切换 -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('dims',this)">📊 行为维度 A–E</button>
+    <button class="tab-btn" onclick="switchTab('chat',this)">💬 聊天实证 F（话术对比）</button>
+  </div>
+
+  <!-- ═══ Tab 1：行为维度 ═══ -->
+  <div id="tab-dims" class="tab-panel active">
+
+  <!-- A. 分时段 R 值 -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-icon icon-red">⏱</div>
+      <div class="section-title">A · 分时段 R 值：转化在哪个时段断掉的</div>
+      <span class="section-flag flag-red">核心问题</span>
+    </div>
+
+    <div class="cmp-label">销1 = 第一销转日（2026-05-13），直播时段 19:15–21:15</div>
+
+    <div class="timeline">
+      <div class="tl-day">
+        <div class="tl-day-label">销转第 1 天</div>
+        <div class="tl-slots">
+          <div class="tl-slot slot-bg-cold">
+            <div class="slot-label">19:15前</div>
+            <div class="slot-lj">0</div>
+            <div class="slot-zxc">0</div>
+          </div>
+          <div class="tl-slot slot-bg-hot">
+            <div class="slot-label">🔴 直播中 19:15-21:15</div>
+            <div class="slot-lj">86.52</div>
+            <div class="slot-zxc" style="color:#dc2626;font-size:13px;font-weight:800">15.55</div>
+          </div>
+          <div class="tl-slot slot-bg-warm">
+            <div class="slot-label">21:15-22:00</div>
+            <div class="slot-lj">7.87</div>
+            <div class="slot-zxc slot-zero">0</div>
+          </div>
+          <div class="tl-slot slot-bg-cold">
+            <div class="slot-label">22:00-24:00</div>
+            <div class="slot-lj slot-zero">0</div>
+            <div class="slot-zxc">7.77</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-day">
+        <div class="tl-day-label">销转第 2 天</div>
+        <div class="tl-slots">
+          <div class="tl-slot slot-bg-cold">
+            <div class="slot-label">00:00-10:00</div>
+            <div class="slot-lj slot-zero">0</div>
+            <div class="slot-zxc">7.77</div>
+          </div>
+          <div class="tl-slot slot-bg-warm">
+            <div class="slot-label">10:00-12:00</div>
+            <div class="slot-lj">7.87</div>
+            <div class="slot-zxc slot-zero">0</div>
+          </div>
+          <div class="tl-slot slot-bg-cold">
+            <div class="slot-label">12:00-19:15</div>
+            <div class="slot-lj slot-zero">0</div>
+            <div class="slot-zxc slot-zero">0</div>
+          </div>
+          <div class="tl-slot slot-bg-warm">
+            <div class="slot-label">直播中</div>
+            <div class="slot-lj">8.89</div>
+            <div class="slot-zxc">2.93</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-day">
+        <div class="tl-day-label">销转第 3–5 天（合计）</div>
+        <div class="tl-slots">
+          <div class="tl-slot slot-bg-cold">
+            <div class="slot-label">早晨段</div>
+            <div class="slot-lj">12.40</div>
+            <div class="slot-zxc">2.93</div>
+          </div>
+          <div class="tl-slot slot-bg-warm">
+            <div class="slot-label">下午段</div>
+            <div class="slot-lj">9.48</div>
+            <div class="slot-zxc">10.92</div>
+          </div>
+          <div class="tl-slot slot-bg-warm">
+            <div class="slot-label">直播段</div>
+            <div class="slot-lj">5.92</div>
+            <div class="slot-zxc">5.07</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-size:11px;color:#64748b;margin-top:10px;display:flex;gap:16px">
+      <span><span style="color:#16a34a;font-weight:700">■</span> 廖杰01（总R=128.12）</span>
+      <span><span style="color:#dc2626;font-weight:700">■</span> 张小超（总R=50.41）</span>
+      <span>格子内：上行廖杰 / 下行张小超，单位=R值</span>
+    </div>
+
+    <div class="action-box" style="margin-top:12px">
+      <div class="ab-title">💡 行动建议</div>
+      <div class="ab-item"><span class="ab-num">①</span>直播中盯开单话术——直播结束前务必引导学员点链接看课程介绍，廖杰在直播期间推成年课 14 单（大多数在销1直播中）</div>
+      <div class="ab-item"><span class="ab-num">②</span>聊天实证 Tab 有张小超与廖杰同一时段的真实话术对比，可直接参考</div>
+    </div>
+  </div>
+
+  <!-- B. 分层外呼覆盖 -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-icon icon-orange">📞</div>
+      <div class="section-title">B · 分层外呼覆盖：高意向客户有没有被跟进</div>
+      <span class="section-flag flag-red">严重不足</span>
+    </div>
+
+    <table class="call-table">
+      <thead>
+        <tr>
+          <th>分层</th>
+          <th>计量 Leads</th>
+          <th>廖杰 外呼覆盖</th>
+          <th>张小超 外呼覆盖</th>
+          <th>廖杰 平均通时</th>
+          <th>张小超 平均通时</th>
+          <th>行课期跟进（廖杰/张小超）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tier-badge tier-S">S</span></td>
+          <td>43 / 32</td>
+          <td class="diff-ok">34.9%</td>
+          <td class="diff-red">15.6% ↓</td>
+          <td class="diff-ok">230s</td>
+          <td class="diff-red">51s ↓</td>
+          <td>2096s / <span class="diff-red">36s</span></td>
+        </tr>
+        <tr>
+          <td><span class="tier-badge tier-A">A</span></td>
+          <td>28 / 61</td>
+          <td class="diff-ok">32.1%</td>
+          <td class="diff-red">14.8% ↓</td>
+          <td class="diff-ok">174s</td>
+          <td>107s</td>
+          <td>1406s / <span class="diff-red">43s</span></td>
+        </tr>
+        <tr>
+          <td><span class="tier-badge tier-B">B</span></td>
+          <td>41 / 42</td>
+          <td class="diff-ok">24.4%</td>
+          <td class="diff-red">9.5% ↓</td>
+          <td class="diff-ok">99s</td>
+          <td>65s</td>
+          <td>588s / 77s</td>
+        </tr>
+        <tr style="color:#94a3b8">
+          <td><span class="tier-badge tier-C">C</span></td>
+          <td>391 / 370</td>
+          <td>5.6%</td>
+          <td>3.5%</td>
+          <td>16s</td>
+          <td>6s</td>
+          <td>1865s / 616s</td>
+        </tr>
+        <tr style="color:#94a3b8">
+          <td><span class="tier-badge tier-D">D</span></td>
+          <td>3 / 7</td>
+          <td>33.3%</td>
+          <td>0%</td>
+          <td>62s</td>
+          <td>7s</td>
+          <td>186s / 0s</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="font-size:11px;color:#94a3b8;margin-top:8px">注：leads数量不同是因为廖杰/张小超各自的leads在CRM中独立分配（S层43 vs 32）</div>
+
+    <div class="action-box">
+      <div class="ab-title">💡 行动建议</div>
+      <div class="ab-item"><span class="ab-num">①</span>S 层 32 个高意向，张小超行课期仅跟进 36 秒（廖杰 2096 秒）——立刻补打 S/A 层未覆盖的 27+ 个高意向学员</div>
+      <div class="ab-item"><span class="ab-num">②</span>通话时长 51 秒说明没有深谈——建议在外呼前准备"课程价值+年课优势"话术卡，目标单通 3 分钟以上</div>
+    </div>
+  </div>
+
+  <!-- C. 意向转化漏斗 -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-icon icon-blue">🔽</div>
+      <div class="section-title">C · 意向转化漏斗：看了课程但没推成</div>
+      <span class="section-flag flag-orange">中等问题</span>
+    </div>
+
+    <div class="funnel">
+      <div class="funnel-step">
+        <div class="fs-label">计量 Leads</div>
+        <div class="fs-lj">506</div>
+        <div class="fs-zxc">512</div>
+      </div>
+      <div class="funnel-step">
+        <div class="fs-label">浏览课程</div>
+        <div class="fs-lj">41 <span style="font-size:10px">(8.1%)</span></div>
+        <div class="fs-zxc">48 <span style="font-size:10px">(9.4%)</span></div>
+        <div class="fs-desc">相近</div>
+      </div>
+      <div class="funnel-step">
+        <div class="fs-label">浏览→下单</div>
+        <div class="fs-lj">4.88%</div>
+        <div class="fs-zxc" style="color:#dc2626;font-weight:800">2.08%</div>
+        <div class="fs-desc" style="color:#dc2626">差 2.3x ⚠</div>
+      </div>
+      <div class="funnel-step">
+        <div class="fs-label">待支付</div>
+        <div class="fs-lj">5人</div>
+        <div class="fs-zxc">6人</div>
+      </div>
+    </div>
+
+    <div style="font-size:12px;color:#475569;margin-top:12px;padding:10px 14px;background:#f8fafc;border-radius:8px;line-height:1.7">
+      两人浏览课程占比相近（8-9%），说明内容曝光量类似。但廖杰从"浏览到下单"的转化率是张小超的 2.3 倍，差距来自<strong>推课时机和话术</strong>——廖杰能在学员浏览后即时跟进并促单，张小超没有做到。
+    </div>
+  </div>
+
+  <!-- D. 聊天承接速度 -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-icon icon-green">💬</div>
+      <div class="section-title">D · 聊天承接速度：新 leads 进来有没有及时回</div>
+      <span class="section-flag flag-ok">基本正常</span>
+    </div>
+
+    <div class="cmp-label">1小时内回复率（越高越好）</div>
+    <div class="cmp-row">
+      <span class="cmp-name name-lj">廖杰01</span>
+      <div class="cmp-bar-wrap">
+        <div class="cmp-bar" style="width:70.2%;background:#4ade80">70.2%</div>
+      </div>
+      <span class="cmp-val" style="color:#16a34a">70.2%</span>
+    </div>
+    <div class="cmp-row">
+      <span class="cmp-name name-zxc">张小超</span>
+      <div class="cmp-bar-wrap">
+        <div class="cmp-bar" style="width:77.9%;background:#f87171">77.9%</div>
+      </div>
+      <span class="cmp-val" style="color:#dc2626">77.9%</span>
+    </div>
+
+    <div class="cmp-label" style="margin-top:12px">24小时内回复率</div>
+    <div class="cmp-row">
+      <span class="cmp-name name-lj">廖杰01</span>
+      <div class="cmp-bar-wrap">
+        <div class="cmp-bar" style="width:80.4%;background:#4ade80">80.4%</div>
+      </div>
+      <span class="cmp-val" style="color:#16a34a">80.4%</span>
+    </div>
+    <div class="cmp-row">
+      <span class="cmp-name name-zxc">张小超</span>
+      <div class="cmp-bar-wrap">
+        <div class="cmp-bar" style="width:83.4%;background:#f87171">83.4%</div>
+      </div>
+      <span class="cmp-val" style="color:#dc2626">83.4%</span>
+    </div>
+
+    <div style="font-size:12px;color:#475569;margin-top:10px;padding:8px 12px;background:#f0fdf4;border-radius:8px">
+      ✓ 聊天回复速度两人相近，张小超略高于廖杰。<strong>问题不在于"没有回消息"，而在于"回了但没推动成单"</strong>——话术质量和课程推荐能力是核心差距。
+    </div>
+  </div>
+
+  <!-- E. 课程结构推销力 -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-icon icon-orange">📚</div>
+      <div class="section-title">E · 课程结构推销力：年课推销能力差距显著</div>
+      <span class="section-flag flag-red">核心差距</span>
+    </div>
+
+    <div class="course-grid">
+      <div class="course-card lj">
+        <div class="cc-name" style="color:#15803d">廖杰01（标杆）leads=506</div>
+        <div class="cc-row"><span class="cc-label">年课（最高价值）</span><span class="cc-val" style="color:#16a34a">14 单（2.77%）</span></div>
+        <div class="cc-row"><span class="cc-label">季课</span><span class="cc-val">5 单（0.99%）</span></div>
+        <div class="cc-row"><span class="cc-label">期课</span><span class="cc-val">—</span></div>
+        <div class="cc-row"><span class="cc-label">半年课</span><span class="cc-val" style="color:#94a3b8">0 单</span></div>
+        <div class="cc-row" style="border-top:1px solid #bbf7d0;margin-top:4px;padding-top:4px"><span class="cc-label">总 R 值</span><span class="cc-val" style="color:#16a34a;font-size:16px">128.12</span></div>
+      </div>
+      <div class="course-card zxc">
+        <div class="cc-name" style="color:#b91c1c">张小超 leads=512</div>
+        <div class="cc-row"><span class="cc-label">年课（最高价值）</span><span class="cc-val" style="color:#dc2626">4 单（0.78%）</span></div>
+        <div class="cc-row"><span class="cc-label">季课</span><span class="cc-val">2 单（0.39%）</span></div>
+        <div class="cc-row"><span class="cc-label">期课</span><span class="cc-val">4 单（0.78%）</span></div>
+        <div class="cc-row"><span class="cc-label">半年课</span><span class="cc-val" style="color:#94a3b8">0 单</span></div>
+        <div class="cc-row" style="border-top:1px solid #fecaca;margin-top:4px;padding-top:4px"><span class="cc-label">总 R 值</span><span class="cc-val" style="color:#dc2626;font-size:16px">50.41</span></div>
+      </div>
+    </div>
+
+    <div style="font-size:12px;color:#475569;margin-top:10px;padding:8px 12px;background:#fef9c3;border-radius:8px;line-height:1.7">
+      ⚠ 年课差距 10 单 × 均价约 ¥3,600 = GMV 差约 ¥36,000。年课推销需要在<strong>直播中</strong>和<strong>高意向外呼时</strong>主动推荐，两个关键时机张小超都没有有效把握（见 A 和 B 部分）。
+    </div>
+  </div>
+
+  </div><!-- end tab-dims -->
+
+  <!-- ═══ Tab 2：聊天实证 ═══ -->
+  <div id="tab-chat" class="tab-panel">
+
+  <!-- F1. 数据概览 -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-icon icon-purple">📡</div>
+      <div class="section-title">F1 · 销1直播窗口（19:15-22:00）消息总览</div>
+      <span class="section-flag flag-purple">聊天数据</span>
+    </div>
+
+    <div style="font-size:11px;color:#64748b;margin-bottom:12px">数据来源：crm chat pull · term_id=9988 · 2026-05-13 19:15–22:00 · 样本窗口 5 个（各 ~5000 条）</div>
+
+    <div class="chat-stat-grid">
+      <div class="chat-stat-card lj">
+        <div class="cs-head" style="color:#15803d">廖杰01</div>
+        <div class="cs-row"><span class="cs-label">销售发出消息</span><span class="cs-val-green">2865 条</span></div>
+        <div class="cs-row"><span class="cs-label">文字消息</span><span class="cs-val-green">1963 条（69%）</span></div>
+        <div class="cs-row"><span class="cs-label">直播链接 sphfeed</span><span class="cs-val-green">86 条（3%）✓</span></div>
+        <div class="cs-row"><span class="cs-label">其中直播结束后</span><span class="cs-val-green">71 条（回放）</span></div>
+        <div class="cs-row"><span class="cs-label">表情包 emotion</span><span class="cs-val-green">227 条（8%）</span></div>
+        <div class="cs-row"><span class="cs-label">涉及对话数</span><span class="cs-val-green">348 个</span></div>
+      </div>
+      <div class="chat-stat-card zxc">
+        <div class="cs-head" style="color:#b91c1c">张小超</div>
+        <div class="cs-row"><span class="cs-label">销售发出消息</span><span class="cs-val">3140 条</span></div>
+        <div class="cs-row"><span class="cs-label">文字消息</span><span class="cs-val">2023 条（64%）</span></div>
+        <div class="cs-row"><span class="cs-label">直播链接 sphfeed</span><span class="cs-val-warn">397 条（13%）⚠</span></div>
+        <div class="cs-row"><span class="cs-label">其中直播结束后</span><span class="cs-val-red">241 条（已结束直播）❌</span></div>
+        <div class="cs-row"><span class="cs-label">表情包 emotion</span><span class="cs-val-red">50 条（2%）↓</span></div>
+        <div class="cs-row"><span class="cs-label">涉及对话数</span><span class="cs-val">357 个</span></div>
+      </div>
+    </div>
+
+    <div style="font-size:12px;color:#475569;padding:10px 14px;background:#fef2f2;border-radius:8px;border-left:3px solid #ef4444;line-height:1.7">
+      <strong>核心问题：</strong>张小超在直播窗口内共发出 397 条 sphfeed（进入直播间链接），其中 <strong style="color:#dc2626">241 条在直播结束后（21:15-22:00）</strong> 仍在发送。这意味着 241 名客户收到的是一个已经关闭的直播间链接——这是一个 SOP 执行错误，不仅无效，还会消耗客户信任。
+    </div>
+  </div>
+
+  <!-- F2. 直播链接时序对比 -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-icon icon-red">📊</div>
+      <div class="section-title">F2 · 直播链接（sphfeed）推送时序</div>
+      <span class="section-flag flag-red">关键异常</span>
+    </div>
+
+    <div style="font-size:11px;color:#64748b;margin-bottom:10px">每格代表一个小时时段内发出的 sphfeed 数量</div>
+
+    <div class="gantt-wrap">
+      <div class="gantt-label">廖杰01 — sphfeed 推送节奏（总计 86 条）</div>
+      <div style="display:grid;grid-template-columns:54px 1fr 1fr 1fr;gap:6px;align-items:center;font-size:11px">
+        <div></div>
+        <div style="text-align:center;color:#64748b;background:#f1f5f9;border-radius:4px;padding:3px">19:15–20:15<br><span style="color:#94a3b8">直播中</span></div>
+        <div style="text-align:center;color:#64748b;background:#f1f5f9;border-radius:4px;padding:3px">20:15–21:15<br><span style="color:#94a3b8">直播中</span></div>
+        <div style="text-align:center;color:#fef9c3;background:#92400e;border-radius:4px;padding:3px">21:15–22:00<br><span style="color:#fef9c3">直播结束后</span></div>
+        <div style="font-size:11px;font-weight:700;color:#16a34a">廖杰</div>
+        <div style="text-align:center;background:#dcfce7;border-radius:4px;padding:8px;font-weight:700;color:#16a34a">8 条</div>
+        <div style="text-align:center;background:#dcfce7;border-radius:4px;padding:8px;font-weight:700;color:#16a34a">7 条</div>
+        <div style="text-align:center;background:#d1fae5;border-radius:4px;padding:8px;font-weight:700;color:#059669">71 条<br><span style="font-size:10px;font-weight:400">→ 回放链接</span></div>
+      </div>
+    </div>
+
+    <div class="gantt-wrap" style="margin-top:10px">
+      <div class="gantt-label">张小超 — sphfeed 推送节奏（总计 397 条）</div>
+      <div style="display:grid;grid-template-columns:54px 1fr 1fr 1fr;gap:6px;align-items:center;font-size:11px">
+        <div></div>
+        <div style="text-align:center;color:#64748b;background:#f1f5f9;border-radius:4px;padding:3px">19:15–20:15<br><span style="color:#94a3b8">直播中</span></div>
+        <div style="text-align:center;color:#64748b;background:#f1f5f9;border-radius:4px;padding:3px">20:15–21:15<br><span style="color:#94a3b8">直播中</span></div>
+        <div style="text-align:center;color:#fef9c3;background:#92400e;border-radius:4px;padding:3px">21:15–22:00<br><span style="color:#fef9c3">直播结束后</span></div>
+        <div style="font-size:11px;font-weight:700;color:#dc2626">张小超</div>
+        <div style="text-align:center;background:#fef2f2;border-radius:4px;padding:8px;font-weight:700;color:#dc2626">85 条</div>
+        <div style="text-align:center;background:#fef2f2;border-radius:4px;padding:8px;font-weight:700;color:#dc2626">71 条</div>
+        <div style="text-align:center;background:#fee2e2;border-radius:4px;padding:8px;font-weight:700;color:#b91c1c">241 条 ❌<br><span style="font-size:10px;font-weight:400">→ 已关闭直播</span></div>
+      </div>
+    </div>
+
+    <div style="font-size:12px;color:#475569;margin-top:10px;padding:8px 12px;background:#f8fafc;border-radius:8px;line-height:1.7">
+      廖杰的策略：直播中仅对精选客户推送 15 条链接，直播结束后把 sphfeed 替换为<strong>回放链接</strong>，引导未观看学员补课。<br>
+      张小超的策略：直播中批量推送 156 条，直播结束后自动化任务继续推送 241 条——但此时直播已结束，所有链接均无效。
+    </div>
+  </div>
+
+  <!-- F3. 到课话术对比 -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-icon icon-orange">🗣</div>
+      <div class="section-title">F3 · 到课确认话术：廖杰多了一个问题钩子</div>
+      <span class="section-flag flag-orange">话术差异</span>
+    </div>
+
+    <div style="font-size:12px;color:#475569;margin-bottom:12px;line-height:1.6">
+      两人都在 20:48–20:51 期间向当天到课学员发送了"到课奖励"消息，模板基本相同，但廖杰在末尾加了一句问题，强制打开回复窗口：
+    </div>
+
+    <div class="msg-compare">
+      <div class="msg-card good">
+        <div class="msg-from lj">廖杰01 · 20:48</div>
+        <div class="msg-bubble">12－28同学，看您来听课啦！很棒[强]到课奖励发您了👆也记得练习《萱草花》并提交作业哦~<span class="msg-hook">另外，今晚课程还可以听懂吗？[疑问]</span></div>
+        <div class="msg-note">✅ 尾部问题钩子：<strong>"今晚课程还可以听懂吗？"</strong> 触发学员主动回复，开启 1v1 销售对话窗口</div>
+      </div>
+      <div class="msg-card bad">
+        <div class="msg-from zxc">张小超 · 20:48</div>
+        <div class="msg-bubble">【随风】同学 ，有看到您今天来听课 非常棒 继续保持[强]这是今天的完课奖励[礼物]老师帮您整理好了发给您👆👆👆
+
+[玫瑰][玫瑰][玫瑰]<span class="msg-missing">（无问题钩子）</span></div>
+        <div class="msg-note">❌ 消息发出即结束，没有引导学员回复。若学员不主动回，对话就此中断</div>
+      </div>
+    </div>
+
+    <div style="font-size:12px;color:#475569;padding:10px 14px;background:#eff6ff;border-radius:8px;border-left:3px solid #3b82f6;line-height:1.7">
+      <strong>影响：</strong>问题钩子让廖杰与 <strong>到课学员</strong>（最活跃群体）建立了双向对话。一旦学员回复"听懂了"或"有点难"，廖杰就能自然切入"有没有想过持续系统学习"的推课话题，这正是直播中转化的核心路径。
+    </div>
+  </div>
+
+  <!-- F4. 开播即时响应 -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-icon icon-blue">⚡</div>
+      <div class="section-title">F4 · 开播即时响应（19:15–19:20）：廖杰先做人再推课</div>
+      <span class="section-flag flag-orange">行为差异</span>
+    </div>
+
+    <div style="font-size:12px;color:#475569;margin-bottom:12px;line-height:1.6">直播开始的最初 5 分钟是黄金窗口。两人的处理方式截然不同：</div>
+
+    <div class="msg-compare">
+      <div class="msg-card good">
+        <div class="msg-from lj">廖杰01 · 19:15–19:16（真实原文）</div>
+        <div class="msg-bubble">客：今天有事，不听了
+
+廖：<span class="msg-hook">理解的 您安心忙 您看现在进去跟小涵老师打个招呼就可以啦</span>
+
+---
+
+客：不好意思老师，我七点半就已经到车间上班了，没法听，都是早上回家看的回放
+
+廖：<span class="msg-hook">那您7点15进去看回放就可以了...</span></div>
+        <div class="msg-note">✅ 第一时间处理例外情况，关系感优先，情绪温暖，再给解决方案</div>
+      </div>
+      <div class="msg-card bad">
+        <div class="msg-from zxc">张小超 · 19:15–19:18</div>
+        <div class="msg-bubble">【批量推送 85 条直播链接】
+
+🌸 同学们好！今天第二节课学《萱草花》，一首超好听的曲子，快来加入吧！
+
+🎵手机上课入口：https://e.hongsong.club/3...
+🎵手机上课入口：https://e.hongsong.club/3...
+🎵手机上课入口：https://e.hongsong.club/3...<span class="msg-missing">（连续群发同一条给不同客户）</span></div>
+        <div class="msg-note">❌ 开播即推链接，无个人关系维护。对于有疑虑、有特殊情况的学员，这条消息无法建立连接</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- F5. 直播后情感暖场 -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-icon icon-green">🌙</div>
+      <div class="section-title">F5 · 直播后暖场（21:15–22:00）：廖杰用表情+语音建立情感余温</div>
+      <span class="section-flag flag-orange">策略差异</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+      <div>
+        <div style="font-size:11px;font-weight:700;color:#16a34a;margin-bottom:8px">廖杰01 直播后消息类型分布</div>
+        <div style="background:#f0fdf4;border-radius:8px;padding:10px;font-size:12px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:5px"><span>语音消息</span><span style="font-weight:700;color:#16a34a">352条 (40%)</span></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:5px"><span>文字消息</span><span style="font-weight:700">252条 (28%)</span></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="color:#16a34a;font-weight:600">表情包/emoji</span><span style="font-weight:700;color:#16a34a">197条 (22%) ✅</span></div>
+          <div style="display:flex;justify-content:space-between"><span>直播链接</span><span style="font-weight:700;color:#059669">71条 (8%) → 回放</span></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:#dc2626;margin-bottom:8px">张小超 直播后消息类型分布</div>
+        <div style="background:#fef2f2;border-radius:8px;padding:10px;font-size:12px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:5px"><span>语音消息</span><span style="font-weight:700">355条 (31%)</span></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:5px"><span>文字消息</span><span style="font-weight:700">505条 (45%)</span></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="color:#dc2626;font-weight:600">直播链接❌</span><span style="font-weight:700;color:#dc2626">241条 (21%) ❌</span></div>
+          <div style="display:flex;justify-content:space-between"><span>表情包/emoji</span><span style="font-weight:700;color:#dc2626">17条 (2%) ↓↓</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-size:12px;color:#475569;padding:10px 14px;background:#f8fafc;border-radius:8px;line-height:1.7">
+      廖杰在直播结束后通过大量 <strong>表情包（197条）+ 语音</strong> 维系情感联系，让学员感受到"有真人在陪我学习"。张小超则把 21% 的时间用在推送已结束的直播链接上——这不仅无效，还可能让学员觉得"又是机器人在发消息"。
+    </div>
+  </div>
+
+  <!-- F6. SOP 改进建议 -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-icon icon-purple">🔧</div>
+      <div class="section-title">F6 · SOP 改进建议（可直接执行）</div>
+      <span class="section-flag flag-purple">行动清单</span>
+    </div>
+
+    <div class="sop-row bad">
+      <div class="sop-icon">❌</div>
+      <div class="sop-text"><strong>当前问题 1：直播结束后继续推送直播链接</strong><br>修复：设定直播结束时间（21:15）为 sphfeed 截止点；21:15 后改发回放链接或改为文字/表情跟进</div>
+    </div>
+    <div class="sop-row bad">
+      <div class="sop-icon">❌</div>
+      <div class="sop-text"><strong>当前问题 2：到课确认消息无问题钩子</strong><br>修复：在"到课奖励"模板末尾统一加一句提问，例如：<strong>"另外，今晚课程还可以听懂吗？[疑问]"</strong>（参考廖杰模板）</div>
+    </div>
+    <div class="sop-row bad">
+      <div class="sop-icon">❌</div>
+      <div class="sop-text"><strong>当前问题 3：开播即群发链接，无个人预热</strong><br>修复：开播前 5 分钟优先处理"未到课/有特殊情况"的学员回复，先建立个人关系，再发批量课程链接</div>
+    </div>
+    <div class="sop-row good">
+      <div class="sop-icon">✅</div>
+      <div class="sop-text"><strong>保持优点：聊天承接速度</strong><br>张小超 1小时回复率 77.9%，高于廖杰的 70.2%。这是基本功的优势，继续保持</div>
+    </div>
+    <div class="sop-row good">
+      <div class="sop-icon">✅</div>
+      <div class="sop-text"><strong>直接借鉴：廖杰直播后暖场节奏</strong><br>直播结束后前 30 分钟，表情包+语音为主（参考廖杰 22% 表情 + 40% 语音），话术推送为辅；避免在这个时段推课程链接</div>
+    </div>
+
+    <div class="action-box" style="margin-top:12px">
+      <div class="ab-title">📋 本期下一步建议</div>
+      <div class="ab-item"><span class="ab-num">①</span>提取廖杰本期销1直播中 20:48 前后的对话片段，整理成话术参考卡，下期张小超使用前做一次对比学习</div>
+      <div class="ab-item"><span class="ab-num">②</span>更新 SOP 模板：到课确认消息加问题钩子、直播后时段禁止推 sphfeed（只发回放 H5 链接）</div>
+      <div class="ab-item"><span class="ab-num">③</span>下期复盘时，用 crm chat pull 同样拉这个时间窗口的数据，验证 sphfeed 在直播结束后是否清零</div>
+    </div>
+  </div>
+
+  </div><!-- end tab-chat -->
+
+  <!-- 脚注 -->
+  <div class="footnote">
+    行为维度数据来源：result-sales-time-roi / result-sales-conversion / process-sales-term（basic / user-layer）· term_id=9988<br>
+    聊天实证数据来源：crm chat pull · term_id=9988 · account_id 5500/5472 · 2026-05-13 19:15–22:00 · 5070/4985 条消息<br>
+    张小超 account_id=5500，廖杰01 account_id=5472
+  </div>
+</div>
+
+<script>
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

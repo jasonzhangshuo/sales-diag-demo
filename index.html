@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>营期概览 · 星海键盘乐 260512期 B团</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,'PingFang SC',sans-serif;background:#f0f2f5;color:#1a2035;font-size:14px}
+.page{max-width:800px;margin:0 auto;padding:20px 16px 60px}
+
+/* header */
+.header{margin-bottom:18px}
+.header h1{font-size:17px;font-weight:700;color:#1a2035}
+.header .meta{font-size:12px;color:#64748b;margin-top:3px}
+
+/* alert */
+.alert{background:#fef2f2;border:2px solid #fca5a5;border-radius:10px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:flex-start;gap:12px}
+.alert-icon{font-size:20px;line-height:1;flex-shrink:0;margin-top:1px}
+.alert-body .alert-title{font-size:14px;font-weight:800;color:#dc2626;margin-bottom:4px}
+.alert-body .alert-text{font-size:13px;color:#7f1d1d;line-height:1.6}
+.alert-body .alert-flags{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
+.flag-tag{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;background:#fee2e2;color:#b91c1c}
+
+/* benchmark bar */
+.benchmark-row{background:#fff;border-radius:10px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:16px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.bm-label{font-size:11px;font-weight:700;color:#64748b;min-width:100px}
+.bm-track{flex:1;height:6px;background:#e5e7eb;border-radius:3px;position:relative}
+.bm-median-line{position:absolute;top:-4px;height:14px;width:2px;background:#6366f1;border-radius:1px}
+.bm-median-tip{position:absolute;top:-22px;font-size:10px;color:#6366f1;font-weight:700;transform:translateX(-50%);white-space:nowrap}
+.bm-note{font-size:11px;color:#94a3b8;min-width:140px;text-align:right}
+
+/* pan cards */
+.section-title{font-size:12px;font-weight:700;color:#64748b;margin-bottom:10px;letter-spacing:.05em}
+.pan-card{background:#fff;border-radius:12px;padding:16px 20px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);cursor:pointer;transition:box-shadow .15s}
+.pan-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.pan-card.anomaly{border-left:4px solid #dc2626}
+.pan-card.normal{border-left:4px solid #e5e7eb}
+
+.pan-top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.pan-name{font-size:15px;font-weight:800;flex:1}
+.pan-badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
+.badge-anomaly{background:#fee2e2;color:#dc2626}
+.badge-normal{background:#f0fdf4;color:#16a34a}
+.badge-watch{background:#fef9c3;color:#92400e}
+.pan-rank{font-size:11px;color:#94a3b8}
+
+/* metric grid */
+.metric-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
+.metric-item{display:flex;flex-direction:column;gap:2px}
+.metric-label{font-size:11px;color:#94a3b8}
+.metric-value{font-size:18px;font-weight:800;color:#1a2035;line-height:1.1}
+.metric-value.red{color:#dc2626}
+.metric-value.green{color:#16a34a}
+.metric-value.gray{color:#64748b}
+.metric-sub{font-size:11px;font-weight:600;margin-top:1px}
+.metric-sub.down{color:#dc2626}
+.metric-sub.up{color:#16a34a}
+.metric-sub.flat{color:#94a3b8}
+
+/* 偏差图（以大盘中位数为基准 0 线） */
+.dev-wrap{margin-top:14px;padding-top:12px;border-top:1px solid #f1f5f9}
+.dev-label{font-size:11px;color:#64748b;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.dev-chart{display:flex;align-items:center;gap:8px;height:28px;position:relative}
+.dev-left-area{flex:1;display:flex;justify-content:flex-end;align-items:center}
+.dev-right-area{flex:1;display:flex;justify-content:flex-start;align-items:center}
+.dev-center{width:2px;height:28px;background:#6366f1;flex-shrink:0;position:relative}
+.dev-center-tip{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:10px;color:#6366f1;font-weight:700;white-space:nowrap}
+.dev-bar-neg{height:14px;border-radius:3px 0 0 3px}
+.dev-bar-pos{height:14px;border-radius:0 3px 3px 0}
+.dev-val{font-size:12px;font-weight:700;white-space:nowrap}
+
+/* 归因优先级列表 */
+.action-list{margin-top:12px;padding-top:12px;border-top:1px solid #f1f5f9;display:flex;flex-direction:column;gap:6px}
+.action-item{display:flex;align-items:flex-start;gap:8px;font-size:12px}
+.action-priority{min-width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;margin-top:1px}
+.pri-1{background:#dc2626;color:#fff}
+.pri-2{background:#f59e0b;color:#fff}
+.pri-3{background:#94a3b8;color:#fff}
+.action-text{color:#374151;line-height:1.5}
+.action-text strong{color:#0f172a}
+
+/* drill hint */
+.drill-hint{margin-top:12px;padding-top:12px;border-top:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between}
+.drill-hint .hint-text{font-size:12px;color:#475569}
+.drill-btn{font-size:12px;font-weight:700;color:#2563eb;background:#eff6ff;border:none;padding:5px 14px;border-radius:20px;cursor:pointer}
+.drill-btn:hover{background:#dbeafe}
+
+/* 大盘参考卡 */
+.bench-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.bench-card .bc-title{font-size:11px;font-weight:700;color:#64748b}
+.bench-card .bc-vals{display:flex;gap:24px}
+.bench-val{text-align:center}
+.bench-val .bv-label{font-size:10px;color:#94a3b8}
+.bench-val .bv-num{font-size:15px;font-weight:800;color:#6366f1}
+
+.footnote{font-size:11px;color:#94a3b8;margin-top:24px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- 页头 -->
+  <div class="header">
+    <h1>营期概览 · 星海·大盘键盘乐 260512期</h1>
+    <div class="meta">小涵老师 · B团 · 行课 2026-05-12 ～ 2026-05-17 · 数据截止 2026-05-17（已完结）</div>
+  </div>
+
+  <!-- 异常 alert -->
+  <div class="alert">
+    <div class="alert-icon">⚠</div>
+    <div class="alert-body">
+      <div class="alert-title">1 个盘需要优先关注：焕新前行（合并口径）</div>
+      <div class="alert-text">
+        合并 R 值 <strong>78.44</strong>（正式盘 9985 + 测试盘 9988，共 5 名销售），低于同期大盘中位数 <strong>-21.0%</strong>，自身环比上期下滑 <strong>-16.5%</strong>。
+        外R值持续偏弱，指向直播后私域承接问题。
+        九霄之上同期 R=91.33 环比持平，可排除老师/课程共因。
+      </div>
+      <div class="alert-flags">
+        <span class="flag-tag">R值低于大盘 -21%</span>
+        <span class="flag-tag">R值环比 -16.5%</span>
+        <span class="flag-tag">外R低于大盘 -36%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 大盘参考 -->
+  <div class="bench-card">
+    <div class="bc-title">同期大盘基准（实际时间重叠，8 个有效盘）</div>
+    <div class="bc-vals">
+      <div class="bench-val">
+        <div class="bv-label">R值中位数</div>
+        <div class="bv-num">99.28</div>
+      </div>
+      <div class="bench-val">
+        <div class="bv-label">外R中位数</div>
+        <div class="bv-num">41.60</div>
+      </div>
+      <div class="bench-val">
+        <div class="bv-label">转化率中位数</div>
+        <div class="bv-num">4.56%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 盘列表 -->
+  <div class="section-title">本期各盘 · 按 R 值排序</div>
+
+  <!-- 焕新前行·异常 -->
+  <div class="pan-card anomaly" onclick="toggleDrill('hx')">
+    <div class="pan-top">
+      <span class="pan-name">焕新前行 <span style="font-size:11px;font-weight:500;color:#64748b">（正式+测试合并，5人）</span></span>
+      <span class="pan-badge badge-anomaly">⚠ 高优先级异常</span>
+      <span class="pan-rank">同期第 2/10 位（最低）</span>
+    </div>
+    <div class="metric-grid">
+      <div class="metric-item">
+        <span class="metric-label">R 值（合并）</span>
+        <span class="metric-value red">78.44</span>
+        <span class="metric-sub down">vs 大盘 -21.0% ↓</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-label">R 值环比</span>
+        <span class="metric-value red">-16.5%</span>
+        <span class="metric-sub flat">上期 93.96</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-label">外 R 值</span>
+        <span class="metric-value red">26.48</span>
+        <span class="metric-sub down">vs 大盘 -36% ↓</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-label">计量 Leads（合并）</span>
+        <span class="metric-value gray">2,196</span>
+        <span class="metric-sub flat">上期 2,337 (-6%，基本持平)</span>
+      </div>
+    </div>
+
+    <!-- 偏差图：以大盘中位数为 0 基准 -->
+    <div class="dev-wrap">
+      <div class="dev-label">
+        <span>R 值 vs 大盘中位数（大盘中位 = 99.28）</span>
+        <span style="color:#dc2626;font-weight:700">-21.0%（同期倒数第 2）</span>
+      </div>
+      <div class="dev-chart">
+        <div class="dev-left-area">
+          <span class="dev-val" style="color:#dc2626;margin-right:6px">78.44</span>
+          <div class="dev-bar-neg" style="width:126px;background:#f87171"></div>
+        </div>
+        <div class="dev-center"><div class="dev-center-tip">中位 99.28</div></div>
+        <div class="dev-right-area"></div>
+      </div>
+      <div style="font-size:10px;color:#94a3b8;margin-top:4px;text-align:center">← 低于大盘中位数 &nbsp;|&nbsp; 高于大盘中位数 →</div>
+    </div>
+
+    <!-- 归因优先级 -->
+    <div class="action-list">
+      <div class="action-item">
+        <span class="action-priority pri-1">1</span>
+        <span class="action-text"><strong>立刻可查：外R值 26.48，低于大盘 -36%</strong>——直播后私域承接弱，销售今天就能改；建议查看各销售外呼次数和销转期1V1覆盖</span>
+      </div>
+      <div class="action-item">
+        <span class="action-priority pri-2">2</span>
+        <span class="action-text"><strong>结构性问题：正式盘半年课清零（上期 5 单）</strong>——高价值课承接断层，查看 3 位正式盘销售的课型推荐话术</span>
+      </div>
+      <div class="action-item">
+        <span class="action-priority pri-3">3</span>
+        <span class="action-text"><strong>实验盘提示：测试盘（2人）R=89 vs 正式盘（3人）R=69，但 n=2 不够下结论</strong>——廖杰01 个人强（R=128）拉高测试盘均值，参考意义有限；应在 Level 2 对比 廖杰01 vs 张小超（同盘控变量）</span>
+      </div>
+    </div>
+
+    <div class="drill-hint" id="drill-hx" style="display:flex;margin-top:14px;padding-top:12px;border-top:1px solid #f1f5f9">
+      <span class="hint-text" style="color:#dc2626;font-weight:600">↑ 优先查第①条：外R承接 → 查看各销售表现</span>
+      <button class="drill-btn" style="background:#dc2626;color:#fff;padding:7px 18px;font-size:13px" onclick="window.location.href='level2.html'">→ 查看原因分析</button>
+    </div>
+  </div>
+
+  <!-- 九霄之上·正常 -->
+  <div class="pan-card normal" onclick="toggleDrill('jx')">
+    <div class="pan-top">
+      <span class="pan-name">九霄之上</span>
+      <span class="pan-badge badge-normal">✓ 正常</span>
+      <span class="pan-rank">同期第 3/10 位</span>
+    </div>
+    <div class="metric-grid">
+      <div class="metric-item">
+        <span class="metric-label">R 值</span>
+        <span class="metric-value gray">91.33</span>
+        <span class="metric-sub flat">vs 大盘 -8.0%</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-label">R 值环比</span>
+        <span class="metric-value gray">≈ 0%</span>
+        <span class="metric-sub flat">上期 91.34</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-label">外 R 值</span>
+        <span class="metric-value gray">40.57</span>
+        <span class="metric-sub flat">vs 大盘 -2.5%</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-label">计量 Leads</span>
+        <span class="metric-value gray">2,887</span>
+        <span class="metric-sub flat">上期 2,948 (-2%)</span>
+      </div>
+    </div>
+
+    <!-- 偏差图 九霄 -->
+    <div class="dev-wrap">
+      <div class="dev-label">
+        <span>R 值 vs 大盘中位数（大盘中位 = 99.28）</span>
+        <span style="color:#64748b;font-weight:700">-8.0%</span>
+      </div>
+      <div class="dev-chart">
+        <div class="dev-left-area">
+          <span class="dev-val" style="color:#374151;margin-right:6px">91.33</span>
+          <div class="dev-bar-neg" style="width:48px;background:#d1d5db"></div>
+        </div>
+        <div class="dev-center"><div class="dev-center-tip">中位 99.28</div></div>
+        <div class="dev-right-area"></div>
+      </div>
+      <div style="font-size:10px;color:#94a3b8;margin-top:4px;text-align:center">← 低于大盘中位数 &nbsp;|&nbsp; 高于大盘中位数 →</div>
+    </div>
+
+    <div class="drill-hint" id="drill-jx" style="display:none;margin-top:14px;padding-top:12px;border-top:1px solid #f1f5f9">
+      <span class="hint-text">九霄各项指标稳定，可作为焕新的内部对照参考</span>
+      <button class="drill-btn" onclick="window.location.href='level2.html'">→ 查看原因分析</button>
+    </div>
+  </div>
+
+  <!-- 同期参考盘（折叠） -->
+  <div style="margin-top:8px">
+    <span onclick="toggleBench()" style="font-size:12px;color:#2563eb;cursor:pointer" id="bench-toggle">
+      ▼ 展开同期参考盘（8个）
+    </span>
+    <div id="bench-list" style="display:none;margin-top:12px">
+      <div class="section-title">同期大盘参考（实际时间重叠，不含本团）</div>
+
+      <table style="width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)">
+        <thead>
+          <tr style="background:#f8fafc">
+            <th style="text-align:left;padding:10px 14px;font-size:11px;color:#64748b;font-weight:700">盘名</th>
+            <th style="text-align:left;padding:10px 8px;font-size:11px;color:#64748b;font-weight:700">所属</th>
+            <th style="text-align:right;padding:10px 14px;font-size:11px;color:#64748b;font-weight:700">Leads</th>
+            <th style="text-align:right;padding:10px 14px;font-size:11px;color:#64748b;font-weight:700">R 值</th>
+            <th style="text-align:right;padding:10px 14px;font-size:11px;color:#64748b;font-weight:700">外 R</th>
+          </tr>
+        </thead>
+        <tbody id="bench-tbody">
+          <tr><td colspan="5" style="padding:14px;text-align:center;color:#94a3b8;font-size:12px">加载中…</td></tr>
+        </tbody>
+      </table>
+
+      <div style="font-size:11px;color:#94a3b8;margin-top:8px;padding:0 4px">
+        来源：A团 9986 / C团 9987 / E团 9916 / D团 10090，行课时间与本期实际重叠，已过滤测试/自播/leads&lt;500
+      </div>
+    </div>
+  </div>
+
+  <div class="footnote">
+    营期 term_id=9985（正式）+ 9988（测试）合并展示，共 5 名销售 · 大盘基准：实际时间重叠盘 8 个 · 上期 term_id=9698<br>
+    焕新 R 值合并口径 = (正式盘 GMV + 测试盘 GMV) / (正式盘计量 leads + 测试盘计量 leads) · 正式盘单独 R=69.28，测试盘 R=89.04（n=2，参考意义有限）<br>
+    字段：roi / rValueOutLiveStreamConversionRate / marketMemberCount · 数据来源 CRM resultData API
+  </div>
+</div>
+
+<script>
+// 同期参考盘数据（已计算）
+const BENCH_PANS = [
+  {dept:'勇毅笃行', team:'C团 260514期', leads:2445, roi:122.6, out_r:42.4},
+  {dept:'鹏程万里', team:'E团 260508期', leads:2629, roi:114.5, out_r:50.8},
+  {dept:'峰回路转', team:'D团 260516期', leads:2653, roi:98.8,  out_r:46.3},
+  {dept:'勇往直前', team:'E团 260508期', leads:2098, roi:99.6,  out_r:48.1},
+  {dept:'踏浪逐星', team:'A团 260510期', leads:2652, roi:98.9,  out_r:37.1},
+  {dept:'滔滔不绝', team:'D团 260516期', leads:2020, roi:112.1, out_r:40.9},
+  {dept:'福星高照', team:'C团 260514期', leads:1847, roi:92.2,  out_r:35.5},
+  {dept:'锐不可当', team:'A团 260510期', leads:3612, roi:78.6,  out_r:34.6},
+];
+
+function toggleBench() {
+  const el = document.getElementById('bench-list');
+  const btn = document.getElementById('bench-toggle');
+  const open = el.style.display !== 'none';
+  el.style.display = open ? 'none' : 'block';
+  btn.textContent = open ? '▼ 展开同期参考盘（8个）' : '▲ 收起同期参考盘';
+  if (!open && document.getElementById('bench-tbody').textContent.includes('加载中')) {
+    renderBench();
+  }
+}
+
+function renderBench() {
+  const tbody = document.getElementById('bench-tbody');
+  const sorted = [...BENCH_PANS].sort((a,b) => b.roi - a.roi);
+  tbody.innerHTML = sorted.map(p => {
+    const roiColor = p.roi >= 99.28 ? '#16a34a' : p.roi >= 80 ? '#374151' : '#dc2626';
+    return `<tr style="border-top:1px solid #f3f4f6">
+      <td style="padding:9px 14px;font-weight:600;font-size:13px">${p.dept}</td>
+      <td style="padding:9px 8px;font-size:12px;color:#64748b">${p.team}</td>
+      <td style="padding:9px 14px;text-align:right;font-size:13px">${p.leads.toLocaleString()}</td>
+      <td style="padding:9px 14px;text-align:right;font-size:14px;font-weight:700;color:${roiColor}">${p.roi.toFixed(1)}</td>
+      <td style="padding:9px 14px;text-align:right;font-size:13px;color:#64748b">${p.out_r.toFixed(1)}</td>
+    </tr>`;
+  }).join('');
+}
+
+function toggleDrill(id) {
+  const el = document.getElementById('drill-' + id);
+  if (el) el.style.display = el.style.display === 'none' ? 'flex' : 'none';
+}
+</script>
+</body>
+</html>
