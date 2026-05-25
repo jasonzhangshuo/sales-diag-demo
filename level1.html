@@ -133,41 +133,48 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 <div class="sidebar">
   <div class="sidebar-logo">销售诊断 <span>AI</span></div>
 
-  <div class="sidebar-term">
-    <div class="sidebar-term-label">当前营期</div>
-    <div class="sidebar-term-name">星海-大盘键盘乐<br>260512期<br>小涵老师 · B团</div>
+  <!-- 营期搜索 -->
+  <div style="padding:10px 10px 8px;border-bottom:1px solid #334155">
+    <input
+      type="text"
+      placeholder="搜索营期名称..."
+      value="星海-大盘键盘乐-260512期"
+      style="width:100%;background:#0f172a;border:1px solid #334155;border-radius:6px;padding:6px 8px;font-size:11px;color:#e2e8f0;outline:none"
+      onfocus="this.style.borderColor='#3b82f6'"
+      onblur="this.style.borderColor='#334155'"
+    >
+    <div style="font-size:10px;color:#475569;margin-top:4px;padding-left:2px">小涵老师 · B团 · 260512期</div>
   </div>
 
-  <div class="sidebar-section">团队 / 销售组</div>
-  <div class="sidebar-team active" onclick="showSection('all')">
+  <!-- 本期销售组 -->
+  <div class="sidebar-section">本期销售组</div>
+  <div class="sidebar-team active" onclick="setActive(this)">
     <span class="team-dot gray"></span>
-    <span class="team-label">全部团队</span>
+    <span class="team-label">全部</span>
   </div>
-  <div class="sidebar-team" onclick="showSection('huanxin')">
+  <div class="sidebar-team" onclick="setActive(this);window.location.href='level2.html'">
     <span class="team-dot red"></span>
-    <span class="team-label">焕新前行</span>
+    <span class="team-label">⚠ 焕新前行</span>
     <span class="team-r" style="color:#f87171">78.44</span>
   </div>
-  <div class="sidebar-team" onclick="showSection('jiuxiao')">
+  <div class="sidebar-team" onclick="setActive(this)">
     <span class="team-dot green"></span>
-    <span class="team-label">九霄之上</span>
+    <span class="team-label">✓ 九霄之上</span>
     <span class="team-r" style="color:#4ade80">91.33</span>
   </div>
 
-  <div class="sidebar-section">快速入口</div>
+  <!-- 诊断层级 -->
+  <div class="sidebar-section">诊断层级</div>
   <div class="sidebar-nav">
-    <button class="nav-btn active" onclick="scrollTo('overview')">📊 营期总览</button>
-    <button class="nav-btn" onclick="scrollTo('teams')">👥 团队对比</button>
-    <button class="nav-btn" onclick="scrollTo('bench')">📈 同期参照</button>
-    <button class="nav-btn" onclick="window.location.href='level2.html'">⚠ 焕新前行详情</button>
+    <button class="nav-btn active">L1 · 营期总览 ← 当前</button>
+    <button class="nav-btn" onclick="window.location.href='level2.html'">L2 · 焕新前行团队</button>
+    <button class="nav-btn" onclick="window.location.href='level3.html'">L3 · 5名销售对比</button>
+    <button class="nav-btn" onclick="window.location.href='level4.html'">L4 · 张小超话术实证</button>
   </div>
 
-  <div style="padding:14px;margin-top:auto;border-top:1px solid #334155;font-size:10px;color:#475569;line-height:1.6">
+  <div style="padding:12px 14px;margin-top:auto;border-top:1px solid #334155;font-size:10px;color:#475569;line-height:1.8">
     数据截止 2026-05-17<br>
-    Level 1 · 营期总览<br>
-    <a href="level2.html" style="color:#60a5fa;text-decoration:none">Level 2 →</a>
-    <a href="level3.html" style="color:#60a5fa;text-decoration:none;margin-left:6px">Level 3 →</a>
-    <a href="level4.html" style="color:#60a5fa;text-decoration:none;margin-left:6px">Level 4 →</a>
+    后期接入 API 后可实时搜索营期
   </div>
 </div>
 
@@ -410,14 +417,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 </div>
 
 <script>
-function showSection(team) {
-  document.querySelectorAll('.sidebar-team').forEach(el => el.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-}
-function scrollTo(id) {
-  document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});
-  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
-  event.currentTarget.classList.add('active');
+function setActive(el) {
+  document.querySelectorAll('.sidebar-team').forEach(e => e.classList.remove('active'));
+  el.classList.add('active');
 }
 </script>
 </body>
