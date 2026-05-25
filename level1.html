@@ -89,18 +89,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 
   <!-- 页头 -->
   <div class="header">
-    <div class="header-eyebrow">销售诊断报告 · Level 1 · 团长视角</div>
-    <h1>B团 260512期 · 同期横向诊断</h1>
-    <div class="meta">B团行课：2026-05-12 ～ 2026-05-17 · 对比同时间窗口 8 个有效参照盘 · 数据截止 2026-05-17（已完结）</div>
-    <div class="header-purpose">团长视角：快速了解本期 B团各盘 R 值表现，与同时间窗口其他团横向对比，定位哪个盘异常，再点击「查看原因分析」逐层追因（团内销售 → 个人行为 → 话术实证）。</div>
+    <div class="header-eyebrow">销售诊断报告 · Level 1 · B团内部诊断</div>
+    <h1>星海-大盘键盘乐-260512期 · 小涵老师 B团</h1>
+    <div class="meta">行课 2026-05-12 ～ 2026-05-17 · B团两组（焕新前行 + 九霄之上）内部对比 + 同期 8 个外部参照盘 · 数据截止 2026-05-17</div>
+    <div class="header-purpose">B团本期共两个销售组：焕新前行（5人）和九霄之上（6人）。两组同老师、同营期，R 值差异直指销售执行问题。点击「查看原因分析」逐层追因（销售个人 → 行为维度 → 话术实证）。</div>
   </div>
 
   <!-- 营期汇总 -->
   <div class="summary-row">
     <div class="sum-card">
-    <div class="sum-label">B团本期盘数</div>
-        <div class="sum-value">2 盘</div>
-        <div class="sum-sub">正式 + 测试（合并口径）</div>
+    <div class="sum-label">诊断主体</div>
+        <div class="sum-value" style="font-size:16px">焕新前行</div>
+        <div class="sum-sub">正式 + 测试合并口径</div>
     </div>
     <div class="sum-card">
     <div class="sum-label">B团 Leads（合并）</div>
@@ -128,10 +128,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
   <div class="alert">
     <div class="alert-icon">⚠</div>
     <div>
-      <div class="alert-title">1 个盘需优先关注：焕新前行（B团，合并口径）</div>
+      <div class="alert-title">焕新前行 R 值异常，需优先关注</div>
       <div class="alert-text">
-        合并 R 值 <strong>78.44</strong>（正式盘 + 测试盘，5 名销售），低于同期大盘中位 <strong>-21.0%</strong>，自身环比上期下滑 <strong>-16.5%</strong>。
-        同周期参照盘（九霄之上，R=91.34）环比持平，可排除课程/老师共因，问题集中在销售执行层面。
+        合并 R 值 <strong>78.44</strong>（260512期正式盘 + 测试盘，共 5 名销售），低于同期参照盘中位 <strong>-21.0%</strong>，自身环比上期下滑 <strong>-16.5%</strong>。
+        同团另一组九霄之上（同营期同老师，R=<strong>91.33</strong>）表现正常，直接排除老师/课程共因，问题锁定在焕新前行销售执行层面。
       </div>
       <div style="margin-top:6px">
         <span class="flag-tag">R 低于大盘 -21%</span>
@@ -160,10 +160,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
       </thead>
       <tbody>
 
-        <!-- 同期参照盘分区标题 -->
+        <!-- 同期外部参照盘分区标题 -->
         <tr style="background:#f8fafc">
           <td colspan="8" style="padding:7px 12px;font-size:11px;color:#6366f1;font-weight:700;letter-spacing:.05em">
-            📊 同期参照盘（时间窗口重叠，用于提供基准；不是 B团下属盘）
+            📊 同期外部参照盘（同一行课周，其他团队；提供市场基准）
           </td>
         </tr>
 
@@ -294,24 +294,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
           <td><button class="drill-btn disabled">未覆盖分析</button></td>
         </tr>
 
-        <!-- 7 九霄之上（B团参照） -->
-        <tr>
-          <td style="color:#94a3b8;font-size:12px">7</td>
+        <!-- 九霄之上（同团内部参照，260512期 B团另一销售组） -->
+        <tr style="background:#f0fdf4">
+          <td style="color:#6366f1;font-size:12px;font-weight:700">📌</td>
           <td>
-            <span class="team-name">九霄之上 <span style="font-size:10px;color:#6366f1;font-weight:400">📌 B团参照</span></span>
-            <span class="team-period">B团同期参照组 · 260510期</span>
+            <span class="team-name" style="color:#16a34a">九霄之上 <span style="font-size:10px;color:#6366f1;font-weight:400">同团内部参照</span></span>
+            <span class="team-period">260512期 B团 · 同营期另一销售组（6人）</span>
           </td>
           <td>2,887</td>
-          <td><strong>91.33</strong></td>
+          <td><strong style="color:#16a34a">91.33</strong></td>
           <td>
             <div class="dev-bar-wrap">
               <div class="dev-bar neg" style="width:10px"></div>
               <span class="dev-val gray">-8.0%</span>
             </div>
           </td>
-          <td><span class="qoq flat">≈0%</span></td>
-          <td><span class="yr-rate ok">47.5%</span></td>
-          <td><button class="drill-btn disabled">稳定·未分析</button></td>
+          <td><span class="qoq flat">—（同期）</span></td>
+          <td><span class="yr-rate ok">46.6%</span></td>
+          <td><button class="drill-btn disabled">稳定·暂未分析</button></td>
         </tr>
 
         <!-- 8 福星高照 C团 -->
@@ -357,7 +357,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
         <!-- B团本期盘分区标题 -->
         <tr style="background:#fff8f0">
           <td colspan="8" style="padding:7px 12px;font-size:11px;color:#ea580c;font-weight:700;letter-spacing:.05em">
-            🔍 B团本期盘（本次诊断主体）
+            🔍 B团本期盘（星海-大盘键盘乐-260512期-小涵老师-B团，诊断主体）
           </td>
         </tr>
 
@@ -397,7 +397,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
     <br><br><strong>参照中位 R 值：99.28</strong>　外R中位：41.60　转化率中位：4.56%
     <br><br>
     <strong>为什么用「中位数」作基准？</strong>避免头部盘（勇毅笃行 R=122.6）拉高基准，让绩效评估更公平。
-    <br><strong>九霄之上</strong>：B团同期另一组参照（260510期，R=91.34，环比持平）。作用：排除老师/课程共因——九霄稳定，说明焕新前行 R 下滑是销售执行问题，不是课程质量问题。
+    <br><strong>九霄之上</strong>：B团内部另一销售组，<strong>同在 260512期、同老师、同 term（9985）</strong>，R=91.33，表现稳定。这是最强的共因排除——排除了老师、课程、市场环境所有共因，焕新前行的 R 下滑只能是销售执行问题。
   </div>
 
   <div class="footnote">
